@@ -17,9 +17,7 @@ export default class ChunkManager {
     this.generateChunk(this.state.x, this.state.y)
     Helpers.log('ChunkManager Init')
   }
-  loadChunk(x, y) {
-
-  }
+  
   generateChunk(x, y){
     this.Chunk = new Chunk({
       x: x,
