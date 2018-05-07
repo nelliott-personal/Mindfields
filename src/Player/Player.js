@@ -3,26 +3,24 @@ import SaveState from '../Utils/SaveState'
 
 export default class Player {
 
-  constructor(state = null) { //initialize a player with state object from saved-state, or blank for new player
-    Helpers.log('Player Init')
-    if( state ){
-      this.state = state
-    }
-    else{
-      this.state = {
-        name:'PlayerName',
-        lastPlayed:'timestamp',
-        inventory:[],
-        ships:[{
-          id:1,
-          ship:{
-            // default ship
-          }
-        }],
-        currentShipID: 1
+  constructor(state = {
+    id: 1,
+    name: 'PlayerName',
+    lastPlayed: Date.now(),
+    x:0,
+    y:0,
+    inventory: [],
+    ships: [{
+      id:1,
+      ship:{
+        // default ship
       }
-      SaveState.setSaveStateProperty('Player', this.state)
-    }
+    }],
+    shipID: 1 // what ship you're in
+  })
+  {
+    this.state = SaveState.setSaveStateProperty('Player', state)
+    Helpers.log('Player Init')
   }
 
 }

@@ -6,7 +6,7 @@ import Helpers from '../Utils/Helpers'
 
 export default class SpaceScene extends Phaser.Scene {
 
-  constructor(test) {
+  constructor() {
     super({
       key: 'SpaceScene'
     })
@@ -17,8 +17,14 @@ export default class SpaceScene extends Phaser.Scene {
   }
 
   create() {
+    this
+    this.state = SaveState.getSaveState()
     this.P = new Player()
-    this.CM = new ChunkManager()
+    this.CM = new ChunkManager({
+      x: this.state.x,
+      y: this.state.y,
+      seed: this.state.seed
+    })
     this.inputstate = {
       up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
       down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
@@ -31,7 +37,7 @@ export default class SpaceScene extends Phaser.Scene {
   }
 
   update() {
-
+    
   }
 
 }

@@ -1,3 +1,4 @@
+import Helpers from '../Utils/Helpers'
 import noise from 'noisejs-ilmiont'
 
 export default class Room {
@@ -6,20 +7,14 @@ export default class Room {
     x: 0,
     y: 0,
     lastEntered: Date.now(),
-    resources:[
-      {
-        id: 1,
-        respawnTime: 12 // override respawn time with saved room data
-      }
-    ],
-    entities:[
-      {
-        // entity state
-      }
-    ]
+    seed: 0
   })
   {
-    // constructor body
+    this.state = state
+    noise.seed(this.state.seed)
+    this.state.noiseVal = Math.abs(noise.simplex2(this.state.x, this.state.y))
+    Helpers.log(this.state)
+
   }
 
 }

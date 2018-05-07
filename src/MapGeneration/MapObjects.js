@@ -103,7 +103,37 @@ let Biomes = [
       ]
     ]
   }
-]
+
+  Heirarchy:
+
+  Planets have Chunks, Chunks have Rooms
+
+  Example Saved Game State:
+  
+  Planets:[
+    {
+      id: 1,
+      name: 'Old Earth',
+      Chunks:[
+        {
+          x: 0,
+          y: 0,
+          Rooms:[
+            {
+              x: 0,
+              y: 0,
+              lastEntered:'never',
+              resources:[],
+              entities:[]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+
+
+
 
 */
 

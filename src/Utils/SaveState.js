@@ -1,7 +1,18 @@
 import Helpers from './Helpers'
 
-export default class SaveState {
+/*
 
+Manages the saved game state in the user's LocalStorage.  The state is an object formatted like:
+
+{
+  GameSeed:1234,
+  Player:{ ... }, // Player state
+  Planets:{ ... } // State of all rooms organized into chunks, and chunks into planets (faster lookups)
+}
+
+*/
+
+export default class SaveState {
   static getSaveState() {
     return JSON.parse(localStorage.getItem('SaveState'))
   }
@@ -15,7 +26,7 @@ export default class SaveState {
     let state = JSON.parse(localStorage.getItem('SaveState'))
     state[key] = val
     this.setSaveState(state)
-    return this.getSaveState()
+    return this.getSaveState()[key]
   }
 
   static getSaveStateProperty(key, val) {
