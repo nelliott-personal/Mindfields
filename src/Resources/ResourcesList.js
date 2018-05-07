@@ -22,7 +22,7 @@ let Resources = [
 let ResourceContainers = [
   {
     id: 1,
-    name: 'Outcropping' // Controls where and how the resource is represented in a room
+    name: 'Outcropping' // Controls where and how the resource is represented in a room, match to tile types (as yet undefined)
   },
   {
     id: 2,

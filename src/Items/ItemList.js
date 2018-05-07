@@ -2,6 +2,7 @@ let Items = [
   {
     id: 1,
     name: 'Shield Generator',
+    slotTypeID: 1,
     ingredients:[ // For crafting
       {
         resourceID: 1,

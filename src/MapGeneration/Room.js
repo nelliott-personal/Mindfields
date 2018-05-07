@@ -1,12 +1,15 @@
-export default class Room{
-  constructor({
+import noise from 'noisejs-ilmiont'
+
+export default class Room {
+
+  constructor(state = {
     x: 0,
     y: 0,
-    lastEntered: 'timestamp',
+    lastEntered: Date.now(),
     resources:[
       {
         id: 1,
-        respawnAt: 'timestamp' // when to respawn
+        respawnTime: 12 // override respawn time with saved room data
       }
     ],
     entities:[
@@ -14,7 +17,9 @@ export default class Room{
         // entity state
       }
     ]
-  }){
+  })
+  {
     // constructor body
-  }  
+  }
+
 }

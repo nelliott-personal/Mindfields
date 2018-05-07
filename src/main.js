@@ -1,10 +1,14 @@
 import 'phaser'
-import SpaceScene from './scenes/SpaceScene'
+import SpaceScene from './Scenes/SpaceScene'
 
-//Sets main game seed
-if(!localStorage.getItem('MainSeed')){
-  console.log('new game');
-  localStorage.setItem('MainSeed', Math.floor(Math.random() * 9999999))
+//If new game, start fresh.  Otherwise populate w/ saved data
+if(localStorage.getItem('SaveState') == null){
+  console.log('new game')
+  localStorage.setItem('SaveState', JSON.stringify({
+    'GameSeed': Math.floor(Math.random() * 9999999),
+    'Player': {},
+    'Map': {}
+  }))
 }
 
 let config = {

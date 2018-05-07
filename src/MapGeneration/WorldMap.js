@@ -1,11 +1,14 @@
 export default class WorldMap {
-  constructor(){
+
+  constructor() {
     this.Rooms = new Array();
   }
-  generateRoom(x, y){
+
+  generateRoom(x, y) {
 
   }
-  loadRoom(x, y){
+  
+  loadRoom(x, y) {
     if(this.Rooms.map(room => {
       return room.x == x && room.y == y
     }).length != 0){
@@ -15,4 +18,5 @@ export default class WorldMap {
       this.generateRoom(x, y)
     }
   }
+
 }
