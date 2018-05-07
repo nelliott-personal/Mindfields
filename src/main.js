@@ -1,15 +1,18 @@
 import 'phaser'
-import BootScene from './scenes/BootScene'
 import SpaceScene from './scenes/SpaceScene'
-import TitleScene from './scenes/TitleScene'
 
+//Sets main game seed
+if(!localStorage.getItem('MainSeed')){
+  console.log('new game');
+  localStorage.setItem('MainSeed', Math.floor(Math.random() * 9999999))
+}
 
 let config = {
     type: Phaser.WEBGL,
     parent: 'content',
-    width: 400,
-    height: 240,
-    scaleMode: 0, //Phaser.ScaleManager.EXACT_FIT,
+    width: 1024,
+    height: 768,
+    scaleMode: 0,
     physics: {
         default: 'arcade',
         arcade: {
