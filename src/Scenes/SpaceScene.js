@@ -19,7 +19,7 @@ export default class SpaceScene extends Phaser.Scene {
   create() {
     this
     this.state = SaveState.getSaveState()
-    this.P = new Player()
+    this.P = new Player(SaveState.getSaveStateProperty('Player'))
     this.CM = new ChunkManager({
       x: this.state.x,
       y: this.state.y,
@@ -33,11 +33,11 @@ export default class SpaceScene extends Phaser.Scene {
       space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
     }
     this.input.mouse.capture = true
-    Helpers.log('Saved State: ', SaveState.getSaveState())
+    Helpers.log('Saved State: ', this.state)
   }
 
   update() {
-    
+
   }
 
 }

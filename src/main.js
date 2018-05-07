@@ -2,13 +2,27 @@ import 'phaser'
 import SpaceScene from './Scenes/SpaceScene'
 
 //If new game, start fresh.  Otherwise populate w/ saved data
-//if(localStorage.getItem('SaveState') == null){
+if(localStorage.getItem('SaveState') == null){
   console.log('new game')
   localStorage.setItem('SaveState', JSON.stringify({
     x: 2,
     y: 2,
     'seed': Math.random(),
-    'Player': {},
+    'Player': {
+      id: 1,
+      name: 'PlayerName',
+      lastPlayed: Date.now(),
+      x:0,
+      y:0,
+      inventory: [],
+      ships: [{
+        id:1,
+        ship:{
+          // default ship
+        }
+      }],
+      shipID: 1 // what ship you're in
+    },
     'Planets': {
       id: 1,
       Chunk:{
@@ -16,10 +30,9 @@ import SpaceScene from './Scenes/SpaceScene'
         y: 0,
         Rooms: []
       }
-
     }
   }))
-//}
+}
 
 let config = {
     type: Phaser.WEBGL,

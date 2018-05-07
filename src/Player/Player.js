@@ -19,7 +19,6 @@ export default class Player {
     shipID: 1 // what ship you're in
   })
   {
-    this.state = SaveState.setSaveStateProperty('Player', state)
     Helpers.log('Player Init')
   }
 
