@@ -1,5 +1,5 @@
-import Helpers from '../Helpers'
-import SaveState from '../SaveState'
+import Helpers from '../Utils/Helpers'
+import SaveState from '../Utils/SaveState'
 
 export default class Player {
 
@@ -24,5 +24,5 @@ export default class Player {
       SaveState.setSaveStateProperty('Player', this.state)
     }
   }
-  
+
 }

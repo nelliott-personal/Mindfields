@@ -1,6 +1,6 @@
 import noise from 'noisejs-ilmiont'
-import Helpers from '../Helpers'
-import SaveState from '../SaveState'
+import Helpers from '../Utils/Helpers'
+import SaveState from '../Utils/SaveState'
 import { Planets, Biomes, RoomTypes, RoomLayouts } from './MapObjects'
 
 // A chunk is 9 rooms
@@ -8,6 +8,7 @@ import { Planets, Biomes, RoomTypes, RoomLayouts } from './MapObjects'
 export default class ChunkManager {
 
   constructor() {
+    Helpers.log('ChunkManager Init')
     noise.seed(SaveState.getSaveState().GameSeed)
   }
 

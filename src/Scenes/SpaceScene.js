@@ -1,8 +1,8 @@
 import AnimatedTiles from 'phaser-animated-tiles'
 import ChunkManager from '../MapGeneration/ChunkManager'
 import Player from '../Player/Player'
-import SaveState from '../SaveState'
-import Helpers from '../Helpers'
+import SaveState from '../Utils/SaveState'
+import Helpers from '../Utils/Helpers'
 
 export default class SpaceScene extends Phaser.Scene {
 
@@ -27,7 +27,7 @@ export default class SpaceScene extends Phaser.Scene {
       space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
     }
     this.input.mouse.capture = true
-    console.log(SaveState.getSaveState())
+    Helpers.log('Saved State: ', SaveState.getSaveState())
   }
 
   update() {
