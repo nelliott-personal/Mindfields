@@ -1,5 +1,7 @@
+import Helpers from '../Utils/Helpers'
+
 export default class Entity{
   constructor(){
-    console.log('Entity Init')
+    Helpers.log('Entity Init')
   }
 }
