@@ -28,7 +28,7 @@ let startGame = function(val){
 }
 
 SaveState.loadState().then((val) => {
-  if(val){
+  if(!val){
     Helpers.log('new game')
     SaveState.saveState(DefaultGameState).then((val) => {
       startGame(val)
