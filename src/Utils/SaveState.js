@@ -1,37 +1,20 @@
 import Helpers from './Helpers'
+import localforage from 'localforage'
 
 /*
 
-Manages the saved game state in the user's LocalStorage.
+Manages the saved game state in the user's indexeddb, or if that's unavailable, localstorage.
 
 */
 
 export default class SaveState {
-  
-  static getSaveState() {
-    return JSON.parse(localStorage.getItem('SaveState'))
+
+  static loadState() {
+    return localforage.getItem('SaveState')
   }
 
-  static setSaveState(state) {
-    localStorage.setItem('SaveState', JSON.stringify(state))
-    return this.getSaveState()
-  }
-
-  static setSaveStateProperty(key, val) {
-    let state = JSON.parse(localStorage.getItem('SaveState'))
-    state[key] = val
-    this.setSaveState(state)
-    return this.getSaveState()[key]
-  }
-
-  static getSaveStateProperty(key, val) {
-    let state = JSON.parse(localStorage.getItem('SaveState'))
-    if(Helpers.hasOwn(state, key)){
-      return state[key]
-    }
-    else{
-      return undefined
-    }
+  static saveState(state) {
+    return localforage.setItem('SaveState', state, function(err, val){ return val })
   }
 
 }

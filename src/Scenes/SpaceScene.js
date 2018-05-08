@@ -17,9 +17,8 @@ export default class SpaceScene extends Phaser.Scene {
   }
 
   create() {
-    this
-    this.state = SaveState.getSaveState()
-    this.P = new Player(SaveState.getSaveStateProperty('Player'))
+    this.state = SaveState.state
+    this.P = new Player(this.state.Player)
     this.CM = new ChunkManager({
       x: this.state.x,
       y: this.state.y,
@@ -37,13 +36,14 @@ export default class SpaceScene extends Phaser.Scene {
   }
 
     update() {
-        for (var input in this.inputstate) {
-            if (this.inputstate.hasOwnProperty(input)) {
-                    if (this.inputstate[input].isDown) {
-                        Helpers.log(input);
-                    }
-            }
+      for (var input in this.inputstate) {
+        if (this.inputstate.hasOwnProperty(input)) {
+          if (this.inputstate[input].isDown) {
+              Helpers.log(input);
+          }
         }
+      }
   }
+
 
 }

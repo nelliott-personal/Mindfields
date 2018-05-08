@@ -1,39 +1,10 @@
 import 'phaser'
+import Helpers from './Utils/Helpers'
+import { DefaultGameState } from './DefaultGameState'
+import SaveState from './Utils/SaveState'
 //import SpaceScene from './Scenes/SpaceScene'
 import Scenes from './Scenes/Scenes'
-
-//If new game, start fresh.  Otherwise populate w/ saved data
-if(localStorage.getItem('SaveState') == null){
-  console.log('new game')
-  localStorage.setItem('SaveState', JSON.stringify({
-    x: 2,
-    y: 2,
-    'seed': Math.random(),
-    'Player': {
-      id: 1,
-      name: 'PlayerName',
-      lastPlayed: Date.now(),
-      x:0,
-      y:0,
-      inventory: [],
-      ships: [{
-        id:1,
-        ship:{
-          // default ship
-        }
-      }],
-      shipID: 1 // what ship you're in
-    },
-    'Planets': {
-      id: 1,
-      Chunk:{
-        x: 0,
-        y: 0,
-        Rooms: []
-      }
-    }
-  }))
-}
+import localforage from 'localforage'
 
 let config = {
     type: Phaser.WEBGL,
@@ -47,7 +18,21 @@ let config = {
             debug: true
         }
     },
-    scene: Scenes 
+    scene: Scenes
 }
+let game = {}
 
-let game = new Phaser.Game(config)
+
+SaveState.loadState().then((val) => {
+  if(!val){
+    Helpers.log('new game')
+    SaveState.saveState(DefaultGameState).then(function(val){
+      SaveState.state = val;
+      game = new Phaser.Game(config)
+    })
+  }
+  else{
+    SaveState.state = val;
+    game = new Phaser.Game(config)
+  }
+})

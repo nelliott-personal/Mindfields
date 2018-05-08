@@ -20,6 +20,14 @@ export default class Chunk {
     this.state.Rooms = this.setRooms(this.state.x, this.state.y, this.state.seed)
   }
 
+  get id(){
+    return this.state.x + '^' + this.state.y
+  }
+
+  get name(){
+    return 'chunk-' + this.state.x + '^' + this.state.y
+  }
+
   setRooms (x, y, seed) {
     var xInc = -1;
     var yInc = -1;
@@ -31,7 +39,7 @@ export default class Chunk {
         lastEntered: 'never',
         seed: seed
       }))
-      
+
       xInc++
       if(xInc == 2){
         xInc = -1
