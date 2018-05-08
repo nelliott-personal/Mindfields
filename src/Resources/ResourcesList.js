@@ -10,7 +10,7 @@ let Resources = [
     name: 'Diamond',
     containerID: 3,
     respawnTime: 300
-  }
+  },
   {
     id: 999,
     name: 'Yttrium',

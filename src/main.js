@@ -1,5 +1,6 @@
 import 'phaser'
-import SpaceScene from './Scenes/SpaceScene'
+//import SpaceScene from './Scenes/SpaceScene'
+import Scenes from './Scenes/Scenes'
 
 //If new game, start fresh.  Otherwise populate w/ saved data
 if(localStorage.getItem('SaveState') == null){
@@ -46,9 +47,7 @@ let config = {
             debug: true
         }
     },
-    scene: [
-        SpaceScene
-    ]
+    scene: Scenes 
 }
 
 let game = new Phaser.Game(config)
