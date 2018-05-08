@@ -6,6 +6,8 @@ import Chunk from './Chunk'
 
 // A Chunk has 9 Rooms
 
+// Do I even need this chunkmanager?
+
 export default class ChunkManager {
 
   constructor(state = {
@@ -17,7 +19,7 @@ export default class ChunkManager {
     this.generateChunk(this.state.x, this.state.y)
     Helpers.log('ChunkManager Init')
   }
-  
+
   generateChunk(x, y){
     this.Chunk = new Chunk({
       x: x,

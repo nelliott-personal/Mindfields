@@ -7,9 +7,7 @@ import Helpers from '../Utils/Helpers'
 export default class SpaceScene extends Phaser.Scene {
 
   constructor() {
-    super({
-      key: 'SpaceScene'
-    })
+    super({ key: 'SpaceScene' })
   }
 
   preload() {
@@ -35,15 +33,14 @@ export default class SpaceScene extends Phaser.Scene {
     Helpers.log('Saved State: ', this.state)
   }
 
-    update() {
-      for (var input in this.inputstate) {
-        if (this.inputstate.hasOwnProperty(input)) {
-          if (this.inputstate[input].isDown) {
-              Helpers.log(input);
-          }
+  update() {
+    for (var input in this.inputstate) {
+      if (this.inputstate.hasOwnProperty(input)) {
+        if (this.inputstate[input].isDown) {
+            Helpers.log(input);
         }
       }
+    }
   }
-
 
 }

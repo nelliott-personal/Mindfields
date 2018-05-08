@@ -9,6 +9,7 @@ export default class Room {
     noise.seed(this.state.seed)
     this.state.noiseVal = Math.abs(noise.simplex2(this.state.x, this.state.y))
   }
+  
   defaultState(){
     return {
       x: 0,
