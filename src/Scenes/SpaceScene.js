@@ -36,8 +36,14 @@ export default class SpaceScene extends Phaser.Scene {
     Helpers.log('Saved State: ', this.state)
   }
 
-  update() {
-
+    update() {
+        for (var input in this.inputstate) {
+            if (this.inputstate.hasOwnProperty(input)) {
+                    if (this.inputstate[input].isDown) {
+                        Helpers.log(input);
+                    }
+            }
+        }
   }
 
 }
