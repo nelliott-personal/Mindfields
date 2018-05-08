@@ -10,14 +10,18 @@ import Chunk from './Chunk'
 
 export default class ChunkManager {
 
-  constructor(state = {
-    x: 0,
-    y: 0,
-    seed: 0
-  }) {
-    this.state = state;
+  constructor(state) {
+    this.state = state || this.defaultState
     this.generateChunk(this.state.x, this.state.y)
     Helpers.log('ChunkManager Init')
+  }
+
+  get defaultState(){
+    return {
+      x: 0,
+      y: 0,
+      seed: 0
+    }
   }
 
   generateChunk(x, y){

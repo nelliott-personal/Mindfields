@@ -5,12 +5,12 @@ export default class Room {
 
   constructor(state)
   {
-    this.state = state || this.defaultState()
+    this.state = state || this.defaultState
     noise.seed(this.state.seed)
     this.state.noiseVal = Math.abs(noise.simplex2(this.state.x, this.state.y))
   }
-  
-  defaultState(){
+
+  get defaultState(){
     return {
       x: 0,
       y: 0,

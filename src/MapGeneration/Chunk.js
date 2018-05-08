@@ -9,15 +9,19 @@ import Room from './Room'
 
 export default class Chunk {
 
-  constructor (state = {
-    x: 0,
-    y: 0,
-    seed: 0,
-    Rooms: Array.apply(null, Array(9)).map(x => x = null)
-  })
+  constructor (state)
   {
-    this.state = state
+    this.state = state || this.defaultState
     this.state.Rooms = this.setRooms(this.state.x, this.state.y, this.state.seed)
+  }
+
+  get defaultState(){
+    return {
+      x: 0,
+      y: 0,
+      seed: 0,
+      Rooms: Array.apply(null, Array(9)).map(x => x = null)
+    }
   }
 
   get id(){
