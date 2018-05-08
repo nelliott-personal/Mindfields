@@ -22,17 +22,19 @@ let config = {
 }
 let game = {}
 
+let startGame = function(val){
+  SaveState.state = val;
+  game = new Phaser.Game(config)
+}
 
 SaveState.loadState().then((val) => {
-  if(!val){
+  if(val){
     Helpers.log('new game')
-    SaveState.saveState(DefaultGameState).then(function(val){
-      SaveState.state = val;
-      game = new Phaser.Game(config)
+    SaveState.saveState(DefaultGameState).then((val) => {
+      startGame(val)
     })
   }
   else{
-    SaveState.state = val;
-    game = new Phaser.Game(config)
+    startGame(val)
   }
 })

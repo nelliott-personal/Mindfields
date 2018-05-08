@@ -14,7 +14,15 @@ export default class SaveState {
   }
 
   static saveState(state) {
-    return localforage.setItem('SaveState', state, function(err, val){ return val })
+    return localforage.setItem('SaveState', state)
+  }
+
+  static loadChunk(id){
+    return localforage.getItem(Chunk.name)
+  }
+
+  static saveChunk(Chunk) {
+    return localforage.setItem(Chunk.name, Chunk.state)
   }
 
 }
