@@ -12,6 +12,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
     this.acc = 2000
     this.body.maxVelocity = new Phaser.Math.Vector2(600, 600)
+    this.scaleX = .5
+    this.scaleY = .5
     //this.body.maxAngular = 400
 
     console.log('Player Init')
