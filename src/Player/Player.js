@@ -9,8 +9,11 @@ export default class Player extends Phaser.GameObjects.Sprite{
     config.scene.physics.world.enable(this);
     config.scene.add.existing(this)
     this.state = config.state || this.defaultState
-    this.acc = 500
-    this.body.maxVelocity = new Phaser.Math.Vector2(400, 400)
+
+    this.acc = 2000
+    this.body.maxVelocity = new Phaser.Math.Vector2(600, 600)
+    //this.body.maxAngular = 400
+
     console.log('Player Init')
   }
 
@@ -36,29 +39,28 @@ export default class Player extends Phaser.GameObjects.Sprite{
     let xAcc = 0
     let yAcc = 0
     for (var input in inputstate) {
-      if (inputstate.hasOwnProperty(input)) {
+
         if (inputstate[input].isDown) {
           switch(input){
             case 'up':
-            yAcc = -this.acc
+            yAcc += -this.acc
             break;
             case 'down':
-            yAcc = this.acc
+            yAcc += this.acc
             break;
             case 'left':
-            xAcc = -this.acc
+            xAcc += -this.acc
             break;
             case 'right':
-            xAcc = this.acc
+            xAcc += this.acc
             break;
           }
         }
-      }
+
     }
     this.body.acceleration = new Phaser.Math.Vector2(xAcc, yAcc)
-    this.rotation = Phaser.Math.Angle.Between(this.x, this.y, this.scene.input.mouse.manager.activePointer.x, this.scene.input.mouse.manager.activePointer.y) + 90
-    Phaser.Math.Clamp(this.body.velocity.x, -1, 1)
-    Phaser.Math.Clamp(this.body.velocity.y, -1, 1)
+    this.body.rotation = Phaser.Math.Angle.Between(this.x, this.y, this.scene.input.mouse.manager.activePointer.x + this.scene.cameras.main.scrollX, this.scene.input.mouse.manager.activePointer.y + this.scene.cameras.main.scrollY) * 180 / Math.PI + 90
+    //this.body.angularAcceleration = Phaser.Math.Distance.Between(this.scene.input.mouse.manager.activePointer.x, this.scene.input.mouse.manager.activePointer.y, this.x)
   }
 
 }

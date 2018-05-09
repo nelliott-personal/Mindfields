@@ -16,7 +16,6 @@ export default class SpaceScene extends Phaser.Scene {
 
   create() {
     this.state = SaveState.state
-    this.entityGroup = this.add.group();
     this.P = new Player({
       scene:this,
       key: 'ship',
@@ -41,7 +40,6 @@ export default class SpaceScene extends Phaser.Scene {
     this.input.mouse.capture = true
     console.log('Saved State: ', this.state)
     this.setupCamera()
-    console.log(this)
 
   }
 
@@ -63,13 +61,6 @@ export default class SpaceScene extends Phaser.Scene {
   update(time, delta) {
     //this.controls.update(delta)
     this.P.update(this.inputstate, time, delta)
-    for (var input in this.inputstate) {
-      if (this.inputstate.hasOwnProperty(input)) {
-        if (this.inputstate[input].isDown) {
-            //console.log(input);
-        }
-      }
-    }
   }
 
 }
