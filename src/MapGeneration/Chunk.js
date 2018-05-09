@@ -6,6 +6,16 @@ import Room from './Room'
   A Chunk has 9 Rooms
 
 */
+const slices = {
+  TOP    : [0, 1, 2],
+  RIGHT  : [2, 5, 8],
+  BOTTOM : [6, 7, 8],
+  LEFT   : [0, 3, 6],
+  MIDDLE : [3, 4, 5],
+  CENTER : [1, 4, 7]
+}
+
+
 
 export default class Chunk {
 
@@ -33,8 +43,8 @@ export default class Chunk {
   }
 
   setRooms (x, y, seed) {
-    var xInc = -1;
-    var yInc = -1;
+    var xInc = -1
+    var yInc = -1
     let rooms = new Array()
     for(var room of this.state.Rooms){
       rooms.push(new Room({
@@ -43,7 +53,6 @@ export default class Chunk {
         lastEntered: 'never',
         seed: seed
       }))
-
       xInc++
       if(xInc == 2){
         xInc = -1
@@ -52,6 +61,61 @@ export default class Chunk {
 
     }
     return rooms
+  }
+
+  shiftRooms(direction){
+    let oldRooms = []
+    switch(direction){
+      case 'UP':
+        oldRooms = this.getSlice(slices.TOP)
+        this.swapSlices(slices.BOTTOM, slices.MIDDLE)
+        this.swapSlices(slices.MIDDLE, slices.TOP)
+        this.generateSlice(slices.TOP)
+      break
+      case 'RIGHT':
+        oldRooms = this.getSlice(slices.RIGHT)
+        this.swapSlices(slices.LEFT, slices.CENTER)
+        this.swapSlices(slices.CENTER, slices.RIGHT)
+        this.generateSlice(slices.RIGHT)
+      break
+      case 'DOWN':
+        oldRooms = this.getSlice(slices.BOTTOM)
+        this.swapSlices(slices.TOP, slices.MIDDLE)
+        this.swapSlices(slices.MIDDLE, slices.BOTTOM)
+        this.generateSlice(slices.BOTTOM)
+      break
+      case 'LEFT':
+        oldRooms = this.getSlice(slices.LEFT)
+        this.swapSlices(slices.RIGHT, slices.CENTER)
+        this.swapSlices(slices.CENTER, slices.LEFT)
+        this.generateSlice(slices.LEFT)
+      break
+    }
+  }
+  getSlice(s){
+    let rooms = []
+
+    for(var i = 0; i < s.length; i++){
+      rooms.push(this.Rooms[s[i]])
+    }
+    return rooms
+  }
+  swapSlices(s1, s2){
+    let tempRooms = this.Rooms;
+    for(var i = 0; i < s1.length; i++){
+      this.Rooms[s1[i]] = this.tempRooms[s2[i]]
+    }
+  }
+
+  generateSlice(s){
+    for(var i = 0; i < s.length; i++){
+      this.Rooms[I] = new Room(new Room({
+        x: 0,
+        y: 0,
+        lastEntered: 'never',
+        seed: this.state.seed
+      }))
+    }
   }
 
   generateRoom (x, y) {
