@@ -6,6 +6,18 @@ import SaveState from './Utils/SaveState'
 import Scenes from './Scenes/Scenes'
 import localforage from 'localforage'
 
+// let logging = $$logging$$
+
+(function(){
+    var _privateLog = console.log
+    //if($$logging$$)
+    if(true){
+      console.log = function (message) {
+      _privateLog.apply(console, arguments)
+      }
+    }
+})();
+
 let config = {
     type: Phaser.WEBGL,
     parent: 'content',
@@ -15,7 +27,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true
+            debug: false
         }
     },
     scene: Scenes

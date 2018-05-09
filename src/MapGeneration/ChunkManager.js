@@ -13,7 +13,7 @@ export default class ChunkManager {
   constructor(state) {
     this.state = state || this.defaultState
     this.generateChunk(this.state.x, this.state.y)
-    Helpers.log('ChunkManager Init')
+    console.log('ChunkManager Init')
   }
 
   get defaultState(){

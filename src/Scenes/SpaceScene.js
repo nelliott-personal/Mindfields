@@ -11,12 +11,21 @@ export default class SpaceScene extends Phaser.Scene {
   }
 
   preload() {
-
+    this.load.image('ship', 'assets/images/ship.png')
   }
 
   create() {
     this.state = SaveState.state
-    this.P = new Player(this.state.Player)
+    this.entityGroup = this.add.group();
+    this.P = new Player({
+      scene:this,
+      key: 'ship',
+      x: this.sys.game.config.width / 2,
+      y: this.sys.game.config.height / 2,
+      state: this.state.Player
+    })
+    this.physics.add.sprite(this.P)
+    console.log(this.P);
     this.CM = new ChunkManager({
       x: this.state.x,
       y: this.state.y,
@@ -30,14 +39,34 @@ export default class SpaceScene extends Phaser.Scene {
       space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
     }
     this.input.mouse.capture = true
-    Helpers.log('Saved State: ', this.state)
+    console.log('Saved State: ', this.state)
+    this.setupCamera()
+    console.log(this)
+
   }
 
-  update() {
+  setupCamera(){
+    var controlConfig = {
+        camera: this.cameras.main,
+        left: this.inputstate.left,
+        right: this.inputstate.right,
+        up: this.inputstate.up,
+        down: this.inputstate.down,
+        acceleration: 0.006,
+        maxSpeed:this.P.body.maxVelocity.x
+    };
+
+    this.controls = new Phaser.Cameras.Controls.Smoothed(controlConfig);
+    //this.cameras.main.startFollow(this.P)
+  }
+
+  update(time, delta) {
+    //this.controls.update(delta)
+    this.P.update(this.inputstate, time, delta)
     for (var input in this.inputstate) {
       if (this.inputstate.hasOwnProperty(input)) {
         if (this.inputstate[input].isDown) {
-            Helpers.log(input);
+            //console.log(input);
         }
       }
     }
