@@ -41,19 +41,15 @@ export default class Player extends Phaser.GameObjects.Sprite{
           switch(input){
             case 'up':
             yAcc = -this.acc
-            //this.body.velocity.y = -10
             break;
             case 'down':
             yAcc = this.acc
-            //this.body.velocity.y = 10
             break;
             case 'left':
             xAcc = -this.acc
-            //this.body.velocity.x = -10
             break;
             case 'right':
             xAcc = this.acc
-            //this.body.velocity.x = 10
             break;
           }
         }
