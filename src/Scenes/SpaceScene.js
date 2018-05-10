@@ -11,7 +11,8 @@ export default class SpaceScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('ship', 'assets/images/ship.png')
+      this.load.image('ship', 'assets/images/ship.png')     
+      this.load.image('targeter', 'assets/images/crosshair.png')
   }
 
   create() {
@@ -21,10 +22,11 @@ export default class SpaceScene extends Phaser.Scene {
       key: 'ship',
       x: this.sys.game.config.width / 2,
       y: this.sys.game.config.height / 2,
-      state: this.state.Player
+      state: this.state.Player,
+      targeter: this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 'targeter') 
     })
     this.physics.add.sprite(this.P)
-    console.log(this.P);
+    console.log(this.P);    
     this.CM = new ChunkManager({
       x: this.state.x,
       y: this.state.y,

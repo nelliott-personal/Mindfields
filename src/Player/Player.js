@@ -16,9 +16,10 @@ export default class Player extends Phaser.GameObjects.Sprite{
     this.body.setDrag(100)
     this.scaleX = .5
     this.scaleY = .5
-    
-    //this.body.maxAngular = 400
 
+    this.targeter = config.targeter;
+    this.targeter.scaleX = .5
+    this.targeter.scaleY = .5
     console.log('Player Init')
   }
 
@@ -66,6 +67,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
         }
     }
     this.body.acceleration = new Phaser.Math.Vector2(xAcc, yAcc)
+    this.targeter.x = this.scene.input.activePointer.x;
+    this.targeter.y = this.scene.input.activePointer.y;
     //this.body.rotation = Phaser.Math.Angle.Between(this.x, this.y, this.scene.input.mouse.manager.activePointer.x + this.scene.cameras.main.scrollX, this.scene.input.mouse.manager.activePointer.y + this.scene.cameras.main.scrollY) * 180 / Math.PI + 90
     //this.body.angularAcceleration = Phaser.Math.Distance.Between(this.scene.input.mouse.manager.activePointer.x, this.scene.input.mouse.manager.activePointer.y, this.x)
   }
