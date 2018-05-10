@@ -7,7 +7,7 @@ import Scenes from './Scenes/Scenes'
 import localforage from 'localforage'
 
 // let logging = $$logging$$
-
+/*
 (function(){
     var _privateLog = console.log
     //if($$logging$$)
@@ -17,7 +17,7 @@ import localforage from 'localforage'
       }
     }
 })();
-
+*/
 let config = {
     type: Phaser.WEBGL,
     parent: 'content',

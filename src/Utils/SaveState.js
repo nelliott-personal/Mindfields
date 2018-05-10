@@ -17,12 +17,12 @@ export default class SaveState {
     return localforage.setItem('SaveState', state)
   }
 
-  static loadChunk(id){
-    return localforage.getItem(Chunk.name)
+  static loadRoom(name){
+    return localforage.getItem(name) || false
   }
 
-  static saveChunk(Chunk) {
-    return localforage.setItem(Chunk.name, Chunk.state)
+  static saveRoom(Room) {
+    return localforage.setItem(Room.name, Room.state)
   }
 
 }

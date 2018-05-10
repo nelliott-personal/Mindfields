@@ -1,4 +1,5 @@
 import Helpers from '../Utils/Helpers'
+import SaveState from '../Utils/SaveState'
 import Room from './Room'
 
 /*
@@ -21,7 +22,7 @@ export default class Chunk {
 
   constructor (state)
   {
-    this.state = state || this.defaultState
+    this.state = Helpers.setState(state, this.defaultState)
     this.state.Rooms = this.setRooms(this.state.x, this.state.y, this.state.seed)
   }
 
@@ -30,16 +31,8 @@ export default class Chunk {
       x: 0,
       y: 0,
       seed: 0,
-      Rooms: Array.apply(null, Array(9)).map(x => x = null)
+      Rooms: Array.apply('null', Array(9)).map(x => x = null)
     }
-  }
-
-  get id(){
-    return this.state.x + '^' + this.state.y
-  }
-
-  get name(){
-    return 'chunk-' + this.state.x + '^' + this.state.y
   }
 
   setRooms (x, y, seed) {
@@ -50,7 +43,7 @@ export default class Chunk {
       rooms.push(new Room({
         x: x + xInc,
         y: y + yInc,
-        lastEntered: 'never',
+        lastActive: Date.now(),
         seed: seed
       }))
       xInc++
@@ -58,7 +51,6 @@ export default class Chunk {
         xInc = -1
         yInc++
       }
-
     }
     return rooms
   }
@@ -70,56 +62,101 @@ export default class Chunk {
         oldRooms = this.getSlice(slices.TOP)
         this.swapSlices(slices.BOTTOM, slices.MIDDLE)
         this.swapSlices(slices.MIDDLE, slices.TOP)
-        this.generateSlice(slices.TOP)
+        this.generateSlice(slices.TOP, this.getNewCoords(oldRooms, direction))
       break
       case 'RIGHT':
         oldRooms = this.getSlice(slices.RIGHT)
         this.swapSlices(slices.LEFT, slices.CENTER)
         this.swapSlices(slices.CENTER, slices.RIGHT)
-        this.generateSlice(slices.RIGHT)
+        this.generateSlice(slices.RIGHT, this.getNewCoords(oldRooms, direction))
       break
       case 'DOWN':
         oldRooms = this.getSlice(slices.BOTTOM)
         this.swapSlices(slices.TOP, slices.MIDDLE)
         this.swapSlices(slices.MIDDLE, slices.BOTTOM)
-        this.generateSlice(slices.BOTTOM)
+        this.generateSlice(slices.BOTTOM, this.getNewCoords(oldRooms, direction))
       break
       case 'LEFT':
         oldRooms = this.getSlice(slices.LEFT)
         this.swapSlices(slices.RIGHT, slices.CENTER)
         this.swapSlices(slices.CENTER, slices.LEFT)
-        this.generateSlice(slices.LEFT)
+        this.generateSlice(slices.LEFT, this.getNewCoords(oldRooms, direction))
       break
     }
+    console.log('rooms shifted')
+    console.log(this.state.Rooms)
   }
+
   getSlice(s){
     let rooms = []
-
     for(var i = 0; i < s.length; i++){
-      rooms.push(this.Rooms[s[i]])
+      rooms.push(this.state.Rooms[s[i]])
     }
     return rooms
   }
   swapSlices(s1, s2){
-    let tempRooms = this.Rooms;
+    let tempRooms = this.state.Rooms.slice();
     for(var i = 0; i < s1.length; i++){
-      this.Rooms[s1[i]] = this.tempRooms[s2[i]]
+      this.state.Rooms[s1[i]] = tempRooms[s2[i]]
     }
   }
 
-  generateSlice(s){
+  getNewCoords(oldRooms, direction){
+    let coords = []
+    switch(direction){
+      case 'UP':
+      coords = [
+        { x: oldRooms[0].state.x, y: oldRooms[0].state.y - 1 },
+        { x: oldRooms[1].state.x, y: oldRooms[1].state.y - 1 },
+        { x: oldRooms[2].state.x, y: oldRooms[2].state.y - 1 }
+      ]
+      break
+      case 'RIGHT':
+      coords = [
+        { x: oldRooms[0].state.x + 1, y: oldRooms[0].state.y },
+        { x: oldRooms[1].state.x + 1, y: oldRooms[1].state.y },
+        { x: oldRooms[2].state.x + 1, y: oldRooms[2].state.y }
+      ]
+      break
+      case 'DOWN':
+      coords = [
+        { x: oldRooms[0].state.x, y: oldRooms[0].state.y + 1 },
+        { x: oldRooms[1].state.x, y: oldRooms[1].state.y + 1 },
+        { x: oldRooms[2].state.x, y: oldRooms[2].state.y + 1 }
+      ]
+      break
+      case 'LEFT':
+      coords = [
+        { x: oldRooms[0].state.x - 1, y: oldRooms[0].state.y },
+        { x: oldRooms[1].state.x - 1, y: oldRooms[1].state.y },
+        { x: oldRooms[2].state.x - 1, y: oldRooms[2].state.y }
+      ]
+      break
+    }
+    return coords
+  }
+
+  generateSlice(s, newCoords){
     for(var i = 0; i < s.length; i++){
-      this.Rooms[I] = new Room(new Room({
-        x: 0,
-        y: 0,
-        lastEntered: 'never',
+
+      this.state.Rooms[s[i]] = new Room({
+        x: newCoords[i].x,
+        y: newCoords[i].y,
+        lastActive: Date.now(),
         seed: this.state.seed
-      }))
+      })
+
+      //this.state.Rooms[s[i]] = this.generateRoom(newCoords[i].x, newCoords[i].y)
     }
   }
 
   generateRoom (x, y) {
-
+    return new Room(SaveState.loadRoom('Room' + x + '^' + y)) || new Room({
+      x: x,
+      y: y,
+      lastActive: Date.now(),
+      seed: this.state.seed
+    })
   }
 
 }

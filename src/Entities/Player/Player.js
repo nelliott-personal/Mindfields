@@ -1,5 +1,5 @@
-import Helpers from '../Utils/Helpers'
-import SaveState from '../Utils/SaveState'
+import SaveState from '../../Utils/SaveState'
+import Helpers from '../../Utils/Helpers'
 
 export default class Player extends Phaser.GameObjects.Sprite{
 
@@ -7,8 +7,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
   {
     super(config.scene, config.x, config.y, config.key)
     config.scene.physics.world.enable(this);
-    config.scene.add.existing(this)
-    this.state = config.state || this.defaultState
+    //config.scene.add.existing(this)
+    this.state = Helpers.setState(config.state, this.defaultState)
 
     this.acc = 400
     this.body.maxVelocity = new Phaser.Math.Vector2(600, 600)
@@ -45,11 +45,11 @@ export default class Player extends Phaser.GameObjects.Sprite{
     let xAcc = 0
     let yAcc = 0
     for (var input in inputstate) {
-        
+
         if (inputstate[input].isDown) {
           switch(input){
             case 'up':
-            yAcc += -this.acc                  
+            yAcc += -this.acc
             break;
             case 'down':
             yAcc += this.acc

@@ -1,6 +1,6 @@
 import AnimatedTiles from 'phaser-animated-tiles'
 import ChunkManager from '../MapGeneration/ChunkManager'
-import Player from '../Player/Player'
+import Player from '../Entities/Player/Player'
 import SaveState from '../Utils/SaveState'
 import Helpers from '../Utils/Helpers'
 
@@ -11,25 +11,26 @@ export default class SpaceScene extends Phaser.Scene {
   }
 
   preload() {
-      this.load.image('ship', 'assets/images/ship.png')     
+      this.load.image('ship', 'assets/images/ship.png')
       this.load.image('targeter', 'assets/images/crosshair.png')
   }
 
   create() {
     this.state = SaveState.state
+    this.isStopped = false;
     this.P = new Player({
       scene:this,
       key: 'ship',
       x: this.sys.game.config.width / 2,
       y: this.sys.game.config.height / 2,
       state: this.state.Player,
-      targeter: this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 'targeter') 
+      targeter: this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 'targeter')
     })
-    this.physics.add.sprite(this.P)
-    console.log(this.P);    
+    //this.physics.add.sprite(this.P)
+    console.log(this.P);
     this.CM = new ChunkManager({
-      x: this.state.x,
-      y: this.state.y,
+      x: 0,
+      y: 0,
       seed: this.state.seed
     })
     this.inputstate = {
@@ -37,7 +38,8 @@ export default class SpaceScene extends Phaser.Scene {
       down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
       left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
       right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
-      space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+      space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
+      q: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q)
     }
     this.input.mouse.capture = true
     console.log('Saved State: ', this.state)

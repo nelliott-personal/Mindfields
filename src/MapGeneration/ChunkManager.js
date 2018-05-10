@@ -11,7 +11,7 @@ import Chunk from './Chunk'
 export default class ChunkManager {
 
   constructor(state) {
-    this.state = state || this.defaultState
+    this.state = Helpers.setState(state, this.defaultState)
     this.generateChunk(this.state.x, this.state.y)
     console.log('ChunkManager Init')
   }
