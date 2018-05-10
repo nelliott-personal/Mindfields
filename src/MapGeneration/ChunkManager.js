@@ -34,12 +34,17 @@ export default class ChunkManager extends Phaser.GameObjects.Graphics {
       seed: this.state.seed,
       Rooms: Array.apply(null, Array(9)).map(x => x = null)
     })
+    this.drawRooms()
+  }
+  drawRooms(){
+    this.clear()
+    let self = this
     for(let r of this.Chunk.Rooms){
+      let t = this.scene.add.text(r.position.x + 10, r.position.y + 10, r.coords.x + ',' + r.coords.y, { fontSize:'36px', align:'center' })
       this.fillStyle('0xFF0000', r.noiseVal)
       this.fillRect(r.position.x, r.position.y, r.size.width, r.size.height)
     }
   }
-
   update(){
 
   }

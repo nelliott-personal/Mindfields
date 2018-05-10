@@ -27,8 +27,8 @@ export default class SpaceScene extends Phaser.Scene {
     this.P = new Player({
       scene:this,
       key: 'ship',
-      x: 0,
-      y: 0,
+      x: 50,
+      y: 50,
       state: this.state.Player,
       targeter: this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 'targeter')
     })
@@ -38,7 +38,8 @@ export default class SpaceScene extends Phaser.Scene {
       left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
       right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
       space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
-      q: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q)
+      x: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X),
+      z: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z)
     }
     this.input.mouse.capture = true
     console.log('Saved State: ', this.state)
@@ -51,6 +52,16 @@ export default class SpaceScene extends Phaser.Scene {
 
   update(time, delta) {
     this.P.update(this.inputstate, time, delta)
+    for(let input in this.inputstate){
+      if(this.inputstate[input].isDown){
+        if(input == 'z'){
+          this.cameras.main.zoom -=.01
+        }
+        else if(input == 'x'){
+          this.cameras.main.zoom +=.01
+        }
+      }
+    }
     //this.CM.update()
     //this.CM.Chunk.getCurrentRoom(this.P.x, this.P.y)
   }

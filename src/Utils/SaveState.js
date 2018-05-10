@@ -18,7 +18,7 @@ export default class SaveState {
   }
 
   static loadRoom(name){
-    return localforage.getItem(name) || false
+    return localforage.getItem(name)
   }
 
   static saveRoom(Room) {

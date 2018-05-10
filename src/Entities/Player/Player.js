@@ -25,9 +25,33 @@ export default class Player extends Entity{
     this.addListener('roomchange', this.changedRoom, this)
     console.log('Player Init')
   }
+
   changedRoom(e){
-    console.log(this.previousRoom)
-    console.log(this.currentRoom)
+    console.log('previous room: ' + this.previousRoom.name)
+    console.log('new room: ' + this.currentRoom.name)
+    
+    if(this.previousRoom.name != this.currentRoom.name){
+      this.scene.CM.Chunk.shiftRooms(this.changedDirection)
+      this.scene.CM.drawRooms()
+    }
+  }
+
+  get changedDirection(){
+    let dir = ''
+    if(this.currentRoom.coords.x < this.previousRoom.coords.x){
+      dir = 'LEFT'
+    }
+    else if(this.currentRoom.coords.x > this.previousRoom.coords.x){
+      dir = 'RIGHT'
+    }
+    else if(this.currentRoom.coords.y < this.previousRoom.coords.y){
+      dir = 'UP'
+    }
+    else if(this.currentRoom.coords.y > this.previousRoom.coords.y){
+      dir = 'DOWN'
+    }
+
+    return dir
   }
   get defaultState(){
     return {
@@ -73,8 +97,9 @@ export default class Player extends Entity{
     }
     this.updatePosition(this.x, this.y)
     this.body.acceleration = new Phaser.Math.Vector2(xAcc, yAcc)
-    this.targeter.x = this.scene.input.activePointer.x;
-    this.targeter.y = this.scene.input.activePointer.y;
+    let tC = this.scene.cameras.main.getWorldPoint(this.scene.input.activePointer.x, this.scene.input.activePointer.y)
+    this.targeter.x = tC.x
+    this.targeter.y = tC.y
     //this.body.rotation = Phaser.Math.Angle.Between(this.x, this.y, this.scene.input.mouse.manager.activePointer.x + this.scene.cameras.main.scrollX, this.scene.input.mouse.manager.activePointer.y + this.scene.cameras.main.scrollY) * 180 / Math.PI + 90
     //this.body.angularAcceleration = Phaser.Math.Distance.Between(this.scene.input.mouse.manager.activePointer.x, this.scene.input.mouse.manager.activePointer.y, this.x)
   }

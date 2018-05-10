@@ -23,6 +23,7 @@ export default class Entity extends Phaser.GameObjects.Sprite{
     this.state.y = y
 
     let cR = this.scene.CM.Chunk.getCurrentRoom(x, y)
+
     if(cR != this.currentRoom){
       if(this.previousRoom == null){
         this.previousRoom = cR

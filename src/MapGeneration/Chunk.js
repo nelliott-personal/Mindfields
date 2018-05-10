@@ -51,6 +51,7 @@ export default class Chunk {
 
   shiftRooms(direction){
     let oldRooms = []
+    console.log('shifting: ' + direction)
     switch(direction){
       case 'UP':
         oldRooms = this.getSlice(slices.TOP)
@@ -77,8 +78,8 @@ export default class Chunk {
         this.generateSlice(slices.LEFT, this.getNewCoords(oldRooms, direction))
       break
     }
-    console.log('rooms shifted')
-    this.Rooms
+    console.log('ROOMS SHIFTED ' + direction)
+    console.log('')
   }
 
   getSlice(s){
@@ -159,7 +160,17 @@ export default class Chunk {
       seed: this.state.seed
     })
     */
-    SaveState.loadRoom('Room' + x + '^' + y).then((val) => { console.log(val)})
+    SaveState.loadRoom('Room' + x + '^' + y).then((val) => {
+      /*
+      console.log('async load room: ')
+      if(val == null){
+        console.log('not found, generating new room')
+      }
+      else{
+        console.log(val)
+      }
+      */
+    })
     return new Room({
       x: x,
       y: y,
