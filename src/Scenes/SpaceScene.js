@@ -11,27 +11,26 @@ export default class SpaceScene extends Phaser.Scene {
   }
 
   preload() {
-      this.load.image('ship', 'assets/images/ship.png')
-      this.load.image('targeter', 'assets/images/crosshair.png')
+    this.load.image('ship', 'assets/images/ship.png')
+    this.load.image('targeter', 'assets/images/crosshair.png')
   }
 
   create() {
     this.state = SaveState.state
     this.isStopped = false;
+    this.CM = new ChunkManager({
+      scene: this,
+      state: {
+        seed: this.state.seed
+      }
+    })
     this.P = new Player({
       scene:this,
       key: 'ship',
-      x: this.sys.game.config.width / 2,
-      y: this.sys.game.config.height / 2,
-      state: this.state.Player,
-      targeter: this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 'targeter')
-    })
-    //this.physics.add.sprite(this.P)
-    console.log(this.P);
-    this.CM = new ChunkManager({
       x: 0,
       y: 0,
-      seed: this.state.seed
+      state: this.state.Player,
+      targeter: this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 'targeter')
     })
     this.inputstate = {
       up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
@@ -44,27 +43,16 @@ export default class SpaceScene extends Phaser.Scene {
     this.input.mouse.capture = true
     console.log('Saved State: ', this.state)
     this.setupCamera()
-
   }
 
   setupCamera(){
-    var controlConfig = {
-        camera: this.cameras.main,
-        left: this.inputstate.left,
-        right: this.inputstate.right,
-        up: this.inputstate.up,
-        down: this.inputstate.down,
-        acceleration: 0.006,
-        maxSpeed:this.P.body.maxVelocity.x
-    };
-
-    this.controls = new Phaser.Cameras.Controls.Smoothed(controlConfig);
-    //this.cameras.main.startFollow(this.P)
+    this.cameras.main.startFollow(this.P)
   }
 
   update(time, delta) {
-    //this.controls.update(delta)
     this.P.update(this.inputstate, time, delta)
+    //this.CM.update()
+    //this.CM.Chunk.getCurrentRoom(this.P.x, this.P.y)
   }
 
 }

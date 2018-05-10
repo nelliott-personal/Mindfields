@@ -1,7 +1,6 @@
 import Helpers from '../Utils/Helpers'
+import SaveState from '../Utils/SaveState'
 import noise from 'noisejs-ilmiont'
-
-
 
 export default class Room {
 
@@ -10,18 +9,31 @@ export default class Room {
     this.state = Helpers.setState(state, this.defaultState)
     noise.seed(this.state.seed)
     this.state.noiseVal = Math.abs(noise.simplex2(this.state.x, this.state.y))
+    SaveState.saveRoom(this)
   }
 
   get defaultState(){
     return {
       x: 0,
       y: 0,
-      width: 100,
-      height: 100,
+      width: 1000,
+      height: 1000,
       lastActive: Date.now(),
       seed: 0,
       noiseVal:0
     }
+  }
+  get position(){
+    return { x: this.state.x * this.state.width, y: this.state.y * this.state.height }
+  }
+  get coords(){
+    return { x: this.state.x, y: this.state.y }
+  }
+  get size(){
+    return { width: this.state.width, height: this.state.height }
+  }
+  get noiseVal(){
+    return (this.state.noiseVal + 1) / 2
   }
 
   get id(){

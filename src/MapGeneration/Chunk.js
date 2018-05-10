@@ -7,7 +7,8 @@ import Room from './Room'
   A Chunk has 9 Rooms
 
 */
-const slices = {
+
+const slices = { // Helps deal with an array as a 3x3 grid
   TOP    : [0, 1, 2],
   RIGHT  : [2, 5, 8],
   BOTTOM : [6, 7, 8],
@@ -15,8 +16,6 @@ const slices = {
   MIDDLE : [3, 4, 5],
   CENTER : [1, 4, 7]
 }
-
-
 
 export default class Chunk {
 
@@ -40,12 +39,7 @@ export default class Chunk {
     var yInc = -1
     let rooms = new Array()
     for(var room of this.state.Rooms){
-      rooms.push(new Room({
-        x: x + xInc,
-        y: y + yInc,
-        lastActive: Date.now(),
-        seed: seed
-      }))
+      rooms.push(this.generateRoom(x + xInc, y + yInc))
       xInc++
       if(xInc == 2){
         xInc = -1
@@ -84,7 +78,7 @@ export default class Chunk {
       break
     }
     console.log('rooms shifted')
-    console.log(this.state.Rooms)
+    this.Rooms
   }
 
   getSlice(s){
@@ -138,20 +132,35 @@ export default class Chunk {
 
   generateSlice(s, newCoords){
     for(var i = 0; i < s.length; i++){
+      this.state.Rooms[s[i]] = this.generateRoom(newCoords[i].x, newCoords[i].y)
+    }
+  }
 
-      this.state.Rooms[s[i]] = new Room({
-        x: newCoords[i].x,
-        y: newCoords[i].y,
-        lastActive: Date.now(),
-        seed: this.state.seed
-      })
+  get Rooms(){
+    return this.state.Rooms
+  }
 
-      //this.state.Rooms[s[i]] = this.generateRoom(newCoords[i].x, newCoords[i].y)
+  getCurrentRoom(x, y){
+    for(let r of this.Rooms){
+      if(x >= r.position.x && x < r.position.x + r.size.width){
+        if(y >= r.position.y && y < r.position.y + r.size.height){
+          return r
+        }
+      }
     }
   }
 
   generateRoom (x, y) {
+    /*
     return new Room(SaveState.loadRoom('Room' + x + '^' + y)) || new Room({
+      x: x,
+      y: y,
+      lastActive: Date.now(),
+      seed: this.state.seed
+    })
+    */
+    SaveState.loadRoom('Room' + x + '^' + y).then((val) => { console.log(val)})
+    return new Room({
       x: x,
       y: y,
       lastActive: Date.now(),

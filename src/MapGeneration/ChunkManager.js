@@ -8,11 +8,14 @@ import Chunk from './Chunk'
 
 // Do I even need this chunkmanager?
 
-export default class ChunkManager {
+export default class ChunkManager extends Phaser.GameObjects.Graphics {
 
-  constructor(state) {
-    this.state = Helpers.setState(state, this.defaultState)
+  constructor(config) {
+    super(config.scene)
+    this.state = Helpers.setState(config.state, this.defaultState)
+    config.scene.add.existing(this)
     this.generateChunk(this.state.x, this.state.y)
+    console.log(this.Chunk.Rooms)
     console.log('ChunkManager Init')
   }
 
@@ -31,6 +34,14 @@ export default class ChunkManager {
       seed: this.state.seed,
       Rooms: Array.apply(null, Array(9)).map(x => x = null)
     })
+    for(let r of this.Chunk.Rooms){
+      this.fillStyle('0xFF0000', r.noiseVal)
+      this.fillRect(r.position.x, r.position.y, r.size.width, r.size.height)
+    }
+  }
+
+  update(){
+
   }
 
 }

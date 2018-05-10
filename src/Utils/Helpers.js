@@ -10,10 +10,10 @@ export default class Helpers {
     return Object.prototype.hasOwnProperty.call(obj, key)
   }
 
-  static setState(n, d){
+  static setState(n, d){ // n = new state, d = default state
     let s = d
     for (let [key, val] of entries(n)) {
-      s[key] = val
+      s[key] = val // override default properties with ones defined in the new state object
     }
     return s
   }
