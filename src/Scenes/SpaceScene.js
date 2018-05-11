@@ -18,6 +18,7 @@ export default class SpaceScene extends Phaser.Scene {
   create() {
     this.state = SaveState.state
     this.isStopped = false;
+    this.debugTextGroup = this.add.group()
     this.CM = new ChunkManager({
       scene: this,
       state: {

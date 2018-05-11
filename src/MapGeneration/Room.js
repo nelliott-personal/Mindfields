@@ -8,7 +8,8 @@ export default class Room {
   {
     this.state = Helpers.setState(state, this.defaultState)
     noise.seed(this.state.seed)
-    this.state.noiseVal = Math.abs(noise.simplex2(this.state.x, this.state.y))
+    //this.state.noiseVal = Math.abs(noise.simplex2(this.state.x, this.state.y))
+    this.state.noiseVal = ((noise.perlin2(this.state.x / 2, this.state.y / 2) * 2) + 1) / 2
     SaveState.saveRoom(this)
   }
 
