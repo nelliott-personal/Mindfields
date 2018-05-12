@@ -27,26 +27,30 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: false
+            debug: true
         }
     },
     scene: Scenes
 }
 let game = {}
 
-let startGame = function(val){
-  SaveState.state = val;
-  game = new Phaser.Game(config)
+let startGame = function (val) {
+    SaveState.state = val;
+    game = new Phaser.Game(config)
+
+    game.canvas.addEventListener('mousedown', function () {
+        game.input.mouse.requestPointerLock();
+    });
 }
 
 SaveState.loadState().then((val) => {
-  if(!val){
-    console.log('new game')
-    SaveState.saveState(DefaultGameState).then((val) => {
-      startGame(val)
-    })
-  }
-  else{
-    startGame(val)
-  }
+    if (!val) {
+        console.log('new game')
+        SaveState.saveState(DefaultGameState).then((val) => {
+            startGame(val)
+        })
+    }
+    else {
+        startGame(val)
+    }
 })

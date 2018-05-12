@@ -24,6 +24,15 @@ export default class Player extends Entity{
 
     this.addListener('roomchange', this.changedRoom, this)
     console.log('Player Init')
+
+    // Move reticle upon locked pointer move
+    this.scene.input.on('pointermove', function (pointer) {
+        if (this.scene.input.mouse.locked) {
+            // Move reticle with mouse
+            this.targeter.x += pointer.movementX;
+            this.targeter.y += pointer.movementY;
+        }
+    }, this);
   }
 
   changedRoom(e){
@@ -97,9 +106,12 @@ export default class Player extends Entity{
     }
     this.updatePosition(this.x, this.y)
     this.body.acceleration = new Phaser.Math.Vector2(xAcc, yAcc)
-    let tC = this.scene.cameras.main.getWorldPoint(this.scene.input.activePointer.x, this.scene.input.activePointer.y)
-    this.targeter.x = tC.x
-    this.targeter.y = tC.y
+
+    this.targeter.x += this.body.deltaX()
+    this.targeter.y += this.body.deltaY()
+    //let tC = this.scene.cameras.main.getWorldPoint(this.scene.input.activePointer.x, this.scene.input.activePointer.y)
+    //this.targeter.x = tC.x
+    //this.targeter.y = tC.y
     //this.body.rotation = Phaser.Math.Angle.Between(this.x, this.y, this.scene.input.mouse.manager.activePointer.x + this.scene.cameras.main.scrollX, this.scene.input.mouse.manager.activePointer.y + this.scene.cameras.main.scrollY) * 180 / Math.PI + 90
     //this.body.angularAcceleration = Phaser.Math.Distance.Between(this.scene.input.mouse.manager.activePointer.x, this.scene.input.mouse.manager.activePointer.y, this.x)
   }
