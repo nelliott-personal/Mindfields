@@ -1,6 +1,7 @@
 import AnimatedTiles from 'phaser-animated-tiles'
 import ChunkManager from '../MapGeneration/ChunkManager'
 import Player from '../Entities/Player/Player'
+import Entity from '../Entities/Entity'
 import SaveState from '../Utils/SaveState'
 import Helpers from '../Utils/Helpers'
 
@@ -13,6 +14,7 @@ export default class SpaceScene extends Phaser.Scene {
   preload() {
     this.load.image('ship', 'assets/images/ship.png')
     this.load.image('targeter', 'assets/images/crosshair.png')
+    this.load.image('spacerock', 'assets/images/spacerock.png')
   }
 
   create() {
@@ -31,8 +33,22 @@ export default class SpaceScene extends Phaser.Scene {
       x: 50,
       y: 50,
       state: this.state.Player,
-      targeter: this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 'targeter')
+      targeter: this.add.image(50, 50, 'targeter')
     })
+    this.O = new Entity({
+        scene: this,
+        key: 'spacerock',
+        x: 300,
+        y: 50,
+        state: {
+            physics: {
+                mass: 10,
+            }
+        }
+    })
+    this.O.body.allowRotation = true
+    this.O.body.setAngularVelocity(25)
+    this.physics.add.collider(this.P, this.O)
     this.inputstate = {
       up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
       down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
