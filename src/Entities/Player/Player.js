@@ -8,19 +8,19 @@ export default class Player extends Entity{
   constructor(config)
   {
     super(config) // Calls Entity.constructor(config)
-    config.scene.physics.world.enable(this);
-    config.scene.add.existing(this)
     this.inventory = new Inventory(this.state.inventory)
-    this.acc = 400
+    this.acc = this.state.physics.acc
     this.body.maxVelocity = new Phaser.Math.Vector2(600, 600)
     this.body.maxAngular = 800
-    this.body.setDrag(100)
+    this.body.setFriction(10)
+    //this.body.setDrag(300) //Keep Drag off
     this.scaleX = .5
     this.scaleY = .5
 
     this.targeter = config.targeter;
     this.targeter.scaleX = .5
     this.targeter.scaleY = .5
+    this.targeter.depth = 10
 
     this.addListener('roomchange', this.changedRoom, this)
     console.log('Player Init')
@@ -68,7 +68,12 @@ export default class Player extends Entity{
       name: 'PlayerName',
       lastPlayed: Date.now(),
       x:0,
-      y:0,
+      y: 0,
+        physics: { //Placeholder physics parameters. Should be defined from ship type/ inventory data and added to config in a preload function before the constructor fires
+            mass: 10,
+            acc: 400,
+            maxVelocity: 600
+        },
       inventory: [],
       ships: [{
         id:1,

@@ -3,9 +3,23 @@ import Helpers from '../Utils/Helpers'
 export default class Entity extends Phaser.GameObjects.Sprite{
   constructor(config){
     super(config.scene, config.x, config.y, config.key) // calls Phaser.GameObjects.Sprite.constructor
+    config.scene.add.existing(this)
     this.state = Helpers.setState(config.state, this.defaultState)
+    if (this.state.physics) {
+        config.scene.physics.world.enable(this);        
+        this.body.setMass(this.state.physics.mass)  
+        this.body.setBounce(0.8, 0.8)
+    }
     console.log('Entity Init')
   }
+    get defaultState() {
+        return {
+            id: 1,
+            name: 'Entity',
+            x: 0,
+            y: 0
+        }
+    }
   get currentRoom(){
     return this.state.currentRoom
   }
