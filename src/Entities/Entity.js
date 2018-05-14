@@ -30,7 +30,8 @@ export default class Entity extends Phaser.GameObjects.Sprite{
     return this.state.previousRoom
   }
   set previousRoom(pR){
-    return this.state.previousRoom = pR
+    this.state.previousRoom = pR
+    return this.state.previousRoom
   }
   updatePosition(x, y){
     this.state.x = x
