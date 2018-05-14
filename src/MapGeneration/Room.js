@@ -1,16 +1,31 @@
 import Helpers from '../Utils/Helpers'
 import SaveState from '../Utils/SaveState'
 import noise from 'noisejs-ilmiont'
+import localforage from 'localforage'
 
-export default class Room {
+export default class Room extends Phaser.GameObjects.Graphics{
 
-  constructor(state)
+  constructor(config)
   {
-    this.state = Helpers.setState(state, this.defaultState)
-    noise.seed(this.state.seed)
-    //this.state.noiseVal = Math.abs(noise.simplex2(this.state.x, this.state.y))
-    this.state.noiseVal = ((noise.perlin2(this.state.x / 2, this.state.y / 2) * 2) + 1) / 2
-    SaveState.saveRoom(this)
+    super(config.scene)
+    this.state = Helpers.setState(config.state, this.defaultState)
+    localforage.getItem(this.name, (err, val) => {
+      if(val){
+        console.log('Loaded Room ' + this.id)
+        this.isNew = false
+        this.state = Helpers.setState(val, this.defaultState)
+      }
+      else{
+        console.log('Generated Room ' + this.id)
+        this.isNew = true
+        this.state = Helpers.setState(config.state, this.defaultState)
+        //this.state.noiseVal = Math.abs(noise.simplex2(this.state.x, this.state.y))
+        this.state.noiseVal = ((noise.perlin2(this.state.x / 2, this.state.y / 2) * 2) + 1) / 2
+        SaveState.saveRoom(this)
+      }
+      this.scene.CM.debugOverlay.drawRooms()
+      noise.seed(this.state.seed)
+    })
   }
 
   get defaultState(){

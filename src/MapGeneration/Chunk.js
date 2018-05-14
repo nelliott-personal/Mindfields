@@ -17,11 +17,13 @@ const slices = { // Helps deal with an array as a 3x3 grid
   CENTER : [1, 4, 7]
 }
 
-export default class Chunk {
+export default class Chunk extends Phaser.GameObjects.Group{
 
-  constructor (state)
+  constructor (config)
   {
-    this.state = Helpers.setState(state, this.defaultState)
+    super(config.scene)
+    this.state = Helpers.setState({}, this.defaultState)
+
     this.state.Rooms = this.setRooms(this.state.x, this.state.y, this.state.seed)
   }
 
@@ -51,7 +53,6 @@ export default class Chunk {
 
   shiftRooms(direction){
     let oldRooms = []
-    console.log('shifting: ' + direction)
     switch(direction){
       case 'UP':
         oldRooms = this.getSlice(slices.TOP)
@@ -78,8 +79,6 @@ export default class Chunk {
         this.generateSlice(slices.LEFT, this.getNewCoords(oldRooms, direction))
       break
     }
-    console.log('ROOMS SHIFTED ' + direction)
-    console.log('')
   }
 
   getSlice(s){
@@ -152,30 +151,14 @@ export default class Chunk {
   }
 
   generateRoom (x, y) {
-    /*
-    return new Room(SaveState.loadRoom('Room' + x + '^' + y)) || new Room({
-      x: x,
-      y: y,
-      lastActive: Date.now(),
-      seed: this.state.seed
-    })
-    */
-    SaveState.loadRoom('Room' + x + '^' + y).then((val) => {
-      /*
-      console.log('async load room: ')
-      if(val == null){
-        console.log('not found, generating new room')
-      }
-      else{
-        console.log(val)
-      }
-      */
-    })
     return new Room({
-      x: x,
-      y: y,
-      lastActive: Date.now(),
-      seed: this.state.seed
+      scene: this.scene,
+        state: {
+        x: x,
+        y: y,
+        lastActive: Date.now(),
+        seed: this.state.seed
+      }
     })
   }
 

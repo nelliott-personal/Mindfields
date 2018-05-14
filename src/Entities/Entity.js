@@ -6,11 +6,10 @@ export default class Entity extends Phaser.GameObjects.Sprite{
     config.scene.add.existing(this)
     this.state = Helpers.setState(config.state, this.defaultState)
     if (this.state.physics) {
-        config.scene.physics.world.enable(this);        
-        this.body.setMass(this.state.physics.mass)  
+        config.scene.physics.world.enable(this);
+        this.body.setMass(this.state.physics.mass)
         this.body.setBounce(0.8, 0.8)
     }
-    console.log('Entity Init')
   }
     get defaultState() {
         return {
@@ -24,7 +23,8 @@ export default class Entity extends Phaser.GameObjects.Sprite{
     return this.state.currentRoom
   }
   set currentRoom(cR){
-    return this.state.currentRoom = cR
+    this.state.currentRoom = cR
+    return this.state.currentRoom
   }
   get previousRoom(){
     return this.state.previousRoom
