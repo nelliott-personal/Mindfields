@@ -18,6 +18,16 @@ import localforage from 'localforage'
     }
 })();
 */
+
+localforage.config({
+    driver: localforage.WEBSQL, // Force WebSQL; same as using setDriver()
+    name: 'mindfields',
+    version: 1.0,
+    size: 536870912, // Size of database, in bytes. WebSQL-only for now.
+    storeName: 'keyvaluepairs', // Should be alphanumeric, with underscores.
+    description: 'game'
+})
+
 let config = {
     type: Phaser.WEBGL,
     parent: 'content',

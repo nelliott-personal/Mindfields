@@ -1,6 +1,5 @@
 import noise from 'noisejs-ilmiont'
 import Helpers from '../Utils/Helpers'
-import SaveState from '../Utils/SaveState'
 import { Planets, Biomes, RoomTypes, RoomLayouts } from './MapObjects'
 import Chunk from './Chunk'
 import DebugOverlay from './DebugOverlay'

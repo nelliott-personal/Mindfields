@@ -1,6 +1,7 @@
 import AnimatedTiles from 'phaser-animated-tiles'
 import ChunkManager from '../MapGeneration/ChunkManager'
 import Player from '../Entities/Player/Player'
+import Asteroid from '../Entities/ResourceNodes/Asteroid'
 import Entity from '../Entities/Entity'
 import SaveState from '../Utils/SaveState'
 import Helpers from '../Utils/Helpers'
@@ -27,6 +28,8 @@ export default class SpaceScene extends Phaser.Scene {
         seed: this.state.seed
       }
     })
+
+    /*
     this.P = new Player({
       scene:this,
       key: 'ship',
@@ -35,6 +38,7 @@ export default class SpaceScene extends Phaser.Scene {
       state: this.state.Player,
       targeter: this.add.image(50, 50, 'targeter')
     })
+
     this.O = new Entity({
         scene: this,
         key: 'spacerock',
@@ -48,7 +52,40 @@ export default class SpaceScene extends Phaser.Scene {
     })
     this.O.body.allowRotation = true
     this.O.body.setAngularVelocity(25)
+
     this.physics.add.collider(this.P, this.O)
+
+    this.O.body.allowRotation = true
+    this.O.body.setAngularVelocity(25)
+
+    */
+
+    this.Entities = this.physics.add.group(this.physics.world, this)
+
+    this.Entities.add(
+      new Player({
+        scene:this,
+        key: 'ship',
+        x: 50,
+        y: 50,
+        state: this.state.Player,
+        targeter: this.add.image(50, 50, 'targeter')
+      })
+    )
+    this.Entities.add(
+      new Asteroid({
+          scene: this,
+          key: 'spacerock',
+          x: 300,
+          y: 50,
+          state: {}
+      })
+    )
+
+    this.P = this.Entities.getChildren()[0]
+    this.physics.add.collider(this.P, this.Entities.getChildren()[1])
+
+
     this.inputstate = {
       up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
       down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
@@ -69,6 +106,7 @@ export default class SpaceScene extends Phaser.Scene {
 
   update(time, delta) {
     this.P.update(this.inputstate, time, delta)
+    this.Entities.getChildren()[1].body.setAngularVelocity(25)
     for(let input in this.inputstate){
       if(this.inputstate[input].isDown){
         if(input == 'z'){

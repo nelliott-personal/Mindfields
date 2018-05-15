@@ -22,7 +22,7 @@ export default class Player extends Entity{
     this.targeter.scaleY = .5
     this.targeter.depth = 10
 
-    this.addListener('roomchange', this.changedRoom, this)
+
     console.log('Player Init')
 
     // Move reticle upon locked pointer move
@@ -36,8 +36,6 @@ export default class Player extends Entity{
   }
 
   changedRoom(e){
-    console.log('previous room: ' + this.previousRoom.name)
-    console.log('new room: ' + this.currentRoom.name)
     
     if(this.previousRoom.name != this.currentRoom.name){
       this.scene.CM.Chunk.shiftRooms(this.changedDirection)
