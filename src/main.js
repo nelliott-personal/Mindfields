@@ -20,11 +20,11 @@ import localforage from 'localforage'
 */
 
 localforage.config({
-    driver: localforage.WEBSQL, // Force WebSQL; same as using setDriver()
+    driver: localforage.WEBSQL,
     name: 'mindfields',
     version: 1.0,
-    size: 536870912, // Size of database, in bytes. WebSQL-only for now.
-    storeName: 'keyvaluepairs', // Should be alphanumeric, with underscores.
+    size: 536870912,
+    storeName: 'keyvaluepairs',
     description: 'game'
 })
 

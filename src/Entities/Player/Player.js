@@ -7,7 +7,7 @@ export default class Player extends Entity{
 
   constructor(config)
   {
-    super(config) // Calls Entity.constructor(config)
+    super(config)
     this.inventory = new Inventory(this.state.inventory)
     this.acc = this.state.physics.acc
     this.body.maxVelocity = new Phaser.Math.Vector2(600, 600)
@@ -22,6 +22,13 @@ export default class Player extends Entity{
     this.targeter.scaleY = .5
     this.targeter.depth = 10
 
+    this.inputstate = {
+      up: config.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
+      down: config.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
+      left: config.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
+      right: config.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
+      space: config.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+    }
 
     console.log('Player Init')
 
@@ -36,7 +43,6 @@ export default class Player extends Entity{
   }
 
   changedRoom(e){
-    
     if(this.previousRoom.name != this.currentRoom.name){
       this.scene.CM.Chunk.shiftRooms(this.changedDirection)
       this.scene.CM.drawRooms()
@@ -83,11 +89,11 @@ export default class Player extends Entity{
     }
   }
 
-  update(inputstate, time, delta) {
+  update(time, delta) {
     let xAcc = 0
     let yAcc = 0
-    for (var input in inputstate) {
-      if (inputstate[input].isDown) {
+    for (var input in this.inputstate) {
+      if (this.inputstate[input].isDown) {
         switch(input){
           case 'up':
           yAcc += -this.acc
@@ -107,16 +113,10 @@ export default class Player extends Entity{
         }
       }
     }
-    this.updatePosition(this.x, this.y)
+    this.updatePosition()
     this.body.acceleration = new Phaser.Math.Vector2(xAcc, yAcc)
-
     this.targeter.x += this.body.deltaX()
     this.targeter.y += this.body.deltaY()
-    //let tC = this.scene.cameras.main.getWorldPoint(this.scene.input.activePointer.x, this.scene.input.activePointer.y)
-    //this.targeter.x = tC.x
-    //this.targeter.y = tC.y
-    //this.body.rotation = Phaser.Math.Angle.Between(this.x, this.y, this.scene.input.mouse.manager.activePointer.x + this.scene.cameras.main.scrollX, this.scene.input.mouse.manager.activePointer.y + this.scene.cameras.main.scrollY) * 180 / Math.PI + 90
-    //this.body.angularAcceleration = Phaser.Math.Distance.Between(this.scene.input.mouse.manager.activePointer.x, this.scene.input.mouse.manager.activePointer.y, this.x)
   }
 
 }

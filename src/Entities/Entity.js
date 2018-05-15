@@ -1,8 +1,9 @@
 import Helpers from '../Utils/Helpers'
+import localforage from 'localforage'
 
 export default class Entity extends Phaser.GameObjects.Sprite{
   constructor(config){
-    super(config.scene, config.x, config.y, config.key) // calls Phaser.GameObjects.Sprite.constructor
+    super(config.scene, config.x, config.y, config.key)
     config.scene.physics.world.enable(this)
     config.scene.add.existing(this)
     this.state = Helpers.setState(config.state, this.defaultState)
@@ -24,7 +25,6 @@ export default class Entity extends Phaser.GameObjects.Sprite{
   }
   set currentRoom(cR){
     this.state.currentRoom = cR
-    console.log(this)
     return this.state.currentRoom
   }
   get previousRoom(){
@@ -34,14 +34,20 @@ export default class Entity extends Phaser.GameObjects.Sprite{
     this.state.previousRoom = pR
     return this.state.previousRoom
   }
+  save(){
+    //localforage.save()
+  }
   changedRoom(e){
 
   }
-  updatePosition(x, y){
-    this.state.x = x
-    this.state.y = y
+  update(time, delta){
+    this.updatePosition()
+  }
+  updatePosition(){
+    this.state.x = this.x
+    this.state.y = this.y
 
-    let cR = this.scene.CM.Chunk.getCurrentRoom(x, y)
+    let cR = this.scene.CM.Chunk.getCurrentRoom(this.x, this.y)
 
     if(cR != this.currentRoom){
       if(this.previousRoom == null){
