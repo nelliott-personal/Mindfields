@@ -14,6 +14,8 @@ export default class Asteroid extends Entity{
   }
 
   update(time, delta){
+    this.body.setMass(10)
+    this.body.setBounce(0.8, 0.8)
     this.updatePosition()
   }
 

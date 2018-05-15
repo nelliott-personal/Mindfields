@@ -114,6 +114,8 @@ export default class Player extends Entity{
       }
     }
     this.updatePosition()
+    this.body.setMass(10)
+    this.body.setBounce(0.8, 0.8)
     this.body.acceleration = new Phaser.Math.Vector2(xAcc, yAcc)
     this.targeter.x += this.body.deltaX()
     this.targeter.y += this.body.deltaY()

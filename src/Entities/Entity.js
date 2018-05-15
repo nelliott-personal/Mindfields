@@ -8,8 +8,6 @@ export default class Entity extends Phaser.GameObjects.Sprite{
     config.scene.add.existing(this)
     this.state = Helpers.setState(config.state, this.defaultState)
     config.scene.physics.world.enable(this);
-    this.body.setMass(10)
-    this.body.setBounce(0.8, 0.8)
     this.addListener('roomchange', this.changedRoom, this)
   }
   get defaultState() {
