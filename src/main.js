@@ -28,6 +28,8 @@ localforage.config({
     description: 'game'
 })
 
+localforage.clear()
+
 let config = {
     type: Phaser.WEBGL,
     parent: 'content',

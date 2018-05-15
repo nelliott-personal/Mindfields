@@ -139,6 +139,10 @@ export default class Chunk extends Phaser.GameObjects.Group{
     return this.state.Rooms
   }
 
+  get Entities(){
+    
+  }
+
   getCurrentRoom(x, y){
     for(let r of this.Rooms){
       if(x >= r.position.x && x < r.position.x + r.size.width){
