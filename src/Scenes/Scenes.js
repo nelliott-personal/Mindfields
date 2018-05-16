@@ -1,6 +1,10 @@
 import SpaceScene from './SpaceScene'
+import DavidsTestKitchen from './DavidsTestKitchen'
 
-let scenes = [SpaceScene];
+let scenes = [
+    //DavidsTestKitchen,
+    SpaceScene
+];
 
 export default scenes;
 

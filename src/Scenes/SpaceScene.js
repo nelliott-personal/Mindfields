@@ -29,7 +29,7 @@ export default class SpaceScene extends Phaser.Scene {
       }
     })
 
-    this.Entities = this.physics.add.group(this.physics.world, this)
+    this.Entities = this.add.group(this)
 
     this.Entities.add(
       new Player({
@@ -52,7 +52,7 @@ export default class SpaceScene extends Phaser.Scene {
     )
 
     this.P = this.Entities.getChildren()[0]
-    this.physics.add.collider(this.P, this.Entities.getChildren()[1])
+    //this.physics.add.collider(this.P, this.Entities.getChildren()[1])
 
     this.input.mouse.capture = true
     console.log('Saved State: ', this.state)
