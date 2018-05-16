@@ -8,11 +8,15 @@ export default class Player extends Entity{
   constructor(config)
   {
     super(config)
+    this.state.x = config.x
+    this.state.y = config.y
     this.inventory = new Inventory(this.state.inventory)
     this.acc = this.state.physics.acc
-    this.body.maxVelocity = new Phaser.Math.Vector2(600, 600)
-    this.body.maxAngular = 800
-    this.body.setFriction(10)
+    this.body.maxVelocity = 10
+    this.setMass(this.state.physics.mass)
+    this.setFrictionAir(0)
+    //this.body.maxAngular = 800
+    //this.body.setFriction(10)
     //this.body.setDrag(300) //Keep Drag off
     this.scaleX = .5
     this.scaleY = .5
@@ -74,9 +78,9 @@ export default class Player extends Entity{
       x:0,
       y: 0,
         physics: { //Placeholder physics parameters. Should be defined from ship type/ inventory data and added to config in a preload function before the constructor fires
-            mass: 10,
-            acc: 400,
-            maxVelocity: 600
+            mass: 1000,
+            acc: 10,
+            maxVelocity: 10
         },
       inventory: [],
       ships: [{
@@ -108,17 +112,19 @@ export default class Player extends Entity{
           xAcc += this.acc
           break;
         }
-        if (Phaser.Math.Difference(this.rotation, this.body.acceleration.angle()) >= 0.05) {
-          this.rotation = Phaser.Math.Angle.RotateTo(this.rotation, this.body.acceleration.angle(), .2);
-        }
+        // to do: rotate body and sprite with angle of force using matterjs
+        //if (Phaser.Math.Difference(this.rotation, this.body.acceleration.angle()) >= 0.05) {
+        //  this.rotation = Phaser.Math.Angle.RotateTo(this.rotation, this.body.acceleration.angle(), .2);
+        //}
       }
     }
+    this.prev = new Phaser.Math.Vector2(this.state.x, this.state.y)
     this.updatePosition()
-    this.body.setMass(10)
-    this.body.setBounce(0.8, 0.8)
-    this.body.acceleration = new Phaser.Math.Vector2(xAcc, yAcc)
-    this.targeter.x += this.body.deltaX()
-    this.targeter.y += this.body.deltaY()
+    this.applyForce({ x: xAcc / 100, y: yAcc / 100 })
+    this.setVelocityX(Phaser.Math.Clamp(this.body.velocity.x, -this.body.maxVelocity, this.body.maxVelocity))
+    this.setVelocityY(Phaser.Math.Clamp(this.body.velocity.y, -this.body.maxVelocity, this.body.maxVelocity))
+    this.targeter.x += this.x - this.prev.x
+    this.targeter.y += this.y - this.prev.y
   }
 
 }

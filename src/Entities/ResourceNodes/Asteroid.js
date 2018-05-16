@@ -6,7 +6,12 @@ export default class Asteroid extends Entity{
   constructor(config){
     super(config)
     this.body.allowRotation = true
-    this.body.setAngularVelocity(25)
+      this.setAngularVelocity(0.1)
+      this.setBody({
+          type: 'polygon',
+          sides:8,
+          radius: 24
+      })
   }
 
   changedRoom(e){
@@ -14,8 +19,8 @@ export default class Asteroid extends Entity{
   }
 
   update(time, delta){
-    this.body.setMass(10)
-    this.body.setBounce(0.8, 0.8)
+    this.setMass(10)
+    this.setBounce(0.5, 0.5)
     this.updatePosition()
   }
 

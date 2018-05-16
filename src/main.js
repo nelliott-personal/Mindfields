@@ -37,9 +37,10 @@ let config = {
     height: 768,
     scaleMode: 0,
     physics: {
-        default: 'arcade',
-        arcade: {
-            debug: true
+        default: 'matter',
+        matter: {
+            debug: true,
+            gravity: { x: 0, y: 0 }
         }
     },
     scene: Scenes

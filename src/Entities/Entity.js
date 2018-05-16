@@ -1,13 +1,11 @@
 import Helpers from '../Utils/Helpers'
 import localforage from 'localforage'
 
-export default class Entity extends Phaser.GameObjects.Sprite{
+export default class Entity extends Phaser.Physics.Matter.Sprite{
   constructor(config){
-    super(config.scene, config.x, config.y, config.key)
-    config.scene.physics.world.enable(this)
+    super(config.scene.matter.world, config.x, config.y, config.key)
     config.scene.add.existing(this)
-    this.state = Helpers.setState(config.state, this.defaultState)
-    config.scene.physics.world.enable(this);
+    this.state = Helpers.setState(config.state, this.defaultState)    
     this.addListener('roomchange', this.changedRoom, this)
   }
   get defaultState() {
@@ -44,18 +42,20 @@ export default class Entity extends Phaser.GameObjects.Sprite{
   updatePosition(){
     this.state.x = this.x
     this.state.y = this.y
+      
+    if (this.scene.CM) {
+        let cR = this.scene.CM.Chunk.getCurrentRoom(this.x, this.y)
 
-    let cR = this.scene.CM.Chunk.getCurrentRoom(this.x, this.y)
-
-    if(cR != this.currentRoom){
-      if(this.previousRoom == null){
-        this.previousRoom = cR
-      }
-      else{
-        this.previousRoom = this.currentRoom;
-      }
-      this.currentRoom = cR
-      this.emit('roomchange')
+        if (cR != this.currentRoom) {
+            if (this.previousRoom == null) {
+                this.previousRoom = cR
+            }
+            else {
+                this.previousRoom = this.currentRoom;
+            }
+            this.currentRoom = cR
+            this.emit('roomchange')
+        }
     }
   }
 }
