@@ -11,10 +11,19 @@ export default class Player extends Entity{
     this.state.x = config.x
     this.state.y = config.y
     this.inventory = new Inventory(this.state.inventory)
+    ///Physics Settings
+    this.setBody({
+        type: 'rectangle',
+        width: 312,
+        height: 96
+    });
+    ///////////////////
     this.acc = this.state.physics.acc
     this.body.maxVelocity = 10
     this.setMass(this.state.physics.mass)
     this.setFrictionAir(0)
+      
+
     //this.body.maxAngular = 800
     //this.body.setFriction(10)
     //this.body.setDrag(300) //Keep Drag off
@@ -96,6 +105,7 @@ export default class Player extends Entity{
   update(time, delta) {
     let xAcc = 0
     let yAcc = 0
+    let force = new Phaser.Math.Vector2()
     for (var input in this.inputstate) {
       if (this.inputstate[input].isDown) {
         switch(input){
@@ -112,10 +122,11 @@ export default class Player extends Entity{
           xAcc += this.acc
           break;
         }
-        // to do: rotate body and sprite with angle of force using matterjs
-        //if (Phaser.Math.Difference(this.rotation, this.body.acceleration.angle()) >= 0.05) {
-        //  this.rotation = Phaser.Math.Angle.RotateTo(this.rotation, this.body.acceleration.angle(), .2);
-        //}
+        force.x = xAcc 
+        force.y = yAcc 
+        if (Phaser.Math.Difference(this.body.angle, force.angle() >= 0.05)) {
+            this.setRotation(Phaser.Math.Angle.RotateTo(this.body.angle, force.angle(), .12) );
+         }
       }
     }
     this.prev = new Phaser.Math.Vector2(this.state.x, this.state.y)

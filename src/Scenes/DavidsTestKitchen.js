@@ -17,7 +17,8 @@ export default class DavidsTestKitchen extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(50, 50, 'spacebg')
+        var bg = this.add.image(50, 50, 'spacebg')
+        bg.depth = -10
         this.state = SaveState.state
         this.Entities = this.add.group(this)
 
