@@ -57,10 +57,18 @@ export default class SpaceScene extends Phaser.Scene {
     this.input.mouse.capture = true
     console.log('Saved State: ', this.state)
     this.setupCamera()
+    this.setupKeys()
   }
 
   setupCamera(){
     this.cameras.main.startFollow(this.P)
+  }
+
+  setupKeys(){
+    this.inputstate = {
+      z: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
+      x: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X)
+    }
   }
 
   update(time, delta) {

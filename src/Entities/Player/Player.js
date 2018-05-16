@@ -75,13 +75,13 @@ export default class Player extends Entity{
       id: 1,
       name: 'PlayerName',
       lastPlayed: Date.now(),
-      x:0,
+      x: 0,
       y: 0,
-        physics: { //Placeholder physics parameters. Should be defined from ship type/ inventory data and added to config in a preload function before the constructor fires
-            mass: 1000,
-            acc: 10,
-            maxVelocity: 10
-        },
+      physics: { //Placeholder physics parameters. Should be defined from ship type/ inventory data and added to config in a preload function before the constructor fires
+          mass: 1000,
+          acc: 10,
+          maxVelocity: 10
+      },
       inventory: [],
       ships: [{
         id:1,

@@ -28,7 +28,8 @@ localforage.config({
     description: 'game'
 })
 
-localforage.clear()
+//Uncomment to start a new game
+//localforage.clear()
 
 let config = {
     type: Phaser.WEBGL,
