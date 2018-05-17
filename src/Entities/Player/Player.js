@@ -122,7 +122,8 @@ export default class Player extends Entity{
           xAcc += this.acc
           break;
         }
-        force.x = xAcc 
+        force.x = xAcc
+        force.y = yAcc
         this.setAngularVelocity(0)
         if (Phaser.Math.Difference(this.body.angle, force.angle() >= 0.05)) {
             this.setRotation(Phaser.Math.Angle.RotateTo(this.body.angle, force.angle(), .1) );
