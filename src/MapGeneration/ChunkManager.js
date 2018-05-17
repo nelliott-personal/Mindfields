@@ -2,7 +2,6 @@ import noise from 'noisejs-ilmiont'
 import Helpers from '../Utils/Helpers'
 import { Planets, Biomes, RoomTypes, RoomLayouts } from './MapObjects'
 import Chunk from './Chunk'
-import DebugOverlay from './DebugOverlay'
 
 // A Chunk has 9 Rooms
 
@@ -14,10 +13,6 @@ export default class ChunkManager extends Phaser.GameObjects.GameObject {
     super(config.scene)
     this.state = Helpers.setState(config.state, this.defaultState)
     this.scene.add.existing(this)
-    this.debugOverlay = new DebugOverlay({
-      scene:this.scene
-    })
-
     this.Chunk = new Chunk({
       scene: this.scene,
       x: this.state.x,
@@ -37,9 +32,6 @@ export default class ChunkManager extends Phaser.GameObjects.GameObject {
     }
   }
 
-  drawRooms(){
-    this.debugOverlay.drawRooms()
-  }
   update(){
 
   }

@@ -19,9 +19,9 @@ export default class SpaceScene extends Phaser.Scene {
   }
 
   create() {
+    console.log('Saved State: ', SaveState.state)
     this.state = SaveState.state
     this.isStopped = false;
-    this.debugTextGroup = this.add.group()
     this.CM = new ChunkManager({
       scene: this,
       state: {
@@ -29,7 +29,8 @@ export default class SpaceScene extends Phaser.Scene {
       }
     })
 
-    this.Entities = this.add.group(this)
+    this.Rooms = this.add.group()
+    this.Entities = this.add.group()
 
     this.Entities.add(
       new Player({
@@ -55,7 +56,6 @@ export default class SpaceScene extends Phaser.Scene {
     //this.physics.add.collider(this.P, this.Entities.getChildren()[1])
 
     this.input.mouse.capture = true
-    console.log('Saved State: ', this.state)
     this.setupCamera()
     this.setupKeys()
   }
@@ -72,6 +72,7 @@ export default class SpaceScene extends Phaser.Scene {
   }
 
   update(time, delta) {
+
     for(let gobj of this.Entities.getChildren()){
       gobj.update(time, delta)
     }

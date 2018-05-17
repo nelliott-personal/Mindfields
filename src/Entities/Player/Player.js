@@ -22,7 +22,7 @@ export default class Player extends Entity{
     this.body.maxVelocity = 10
     this.setMass(this.state.physics.mass)
     this.setFrictionAir(0)
-      
+
 
     //this.body.maxAngular = 800
     //this.body.setFriction(10)
@@ -58,7 +58,6 @@ export default class Player extends Entity{
   changedRoom(e){
     if(this.previousRoom.name != this.currentRoom.name){
       this.scene.CM.Chunk.shiftRooms(this.changedDirection)
-      this.scene.CM.drawRooms()
     }
   }
 

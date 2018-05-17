@@ -20,18 +20,47 @@ export default class Room extends Phaser.GameObjects.Graphics{
         this.state.noiseVal = ((noise.perlin2(this.state.x / 2, this.state.y / 2) * 2) + 1) / 2
         localforage.setItem(this.name, this.state)
       }
-      this.scene.CM.debugOverlay.drawRooms()
       noise.seed(this.state.seed)
+      this.depth = -1;
+      this.scene.add.existing(this)
+      this.drawRoom()
     })
+  }
 
+  destroyRoom(){
+    this.coordDisplay.destroy()
+    this.destroy()
+  }
+
+  drawRoom(){
+    console.log('draw room')
+    this.clear()
+
+    let config = {
+      x: this.position.x + 10,
+      y: this.position.y + 10,
+      text: this.coords.x + ',' + this.coords.y,
+      style: { fontSize:'36px', align:'center' }
+    }
+    this.coordDisplay = this.scene.make.text(config)
+    //let t = this.scene.add.text(r.position.x + 10, r.position.y + 10, r.coords.x + ',' + r.coords.y, { fontSize:'36px', align:'center' })
+
+    if(this.isNew == true){
+      this.fillStyle('0x0046FF', this.noiseVal)
+    }
+    else{
+        this.fillStyle('0xFF0000', this.noiseVal)
+    }
+
+    this.fillRect(this.position.x, this.position.y, this.size.width, this.size.height)
   }
 
   get defaultState(){
     return {
       x: 0,
       y: 0,
-      width: 1000,
-      height: 1000,
+      width: 5000,
+      height: 5000,
       lastActive: Date.now(),
       seed: 0,
       noiseVal:0

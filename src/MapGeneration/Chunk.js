@@ -54,24 +54,28 @@ export default class Chunk extends Phaser.GameObjects.Group{
     let oldRooms = []
     switch(direction){
       case 'UP':
+        this.destroySlice(slices.BOTTOM)
         oldRooms = this.getSlice(slices.TOP)
         this.swapSlices(slices.BOTTOM, slices.MIDDLE)
         this.swapSlices(slices.MIDDLE, slices.TOP)
         this.generateSlice(slices.TOP, this.getNewCoords(oldRooms, direction))
       break
       case 'RIGHT':
+        this.destroySlice(slices.LEFT)
         oldRooms = this.getSlice(slices.RIGHT)
         this.swapSlices(slices.LEFT, slices.CENTER)
         this.swapSlices(slices.CENTER, slices.RIGHT)
         this.generateSlice(slices.RIGHT, this.getNewCoords(oldRooms, direction))
       break
       case 'DOWN':
+        this.destroySlice(slices.TOP)
         oldRooms = this.getSlice(slices.BOTTOM)
         this.swapSlices(slices.TOP, slices.MIDDLE)
         this.swapSlices(slices.MIDDLE, slices.BOTTOM)
         this.generateSlice(slices.BOTTOM, this.getNewCoords(oldRooms, direction))
       break
       case 'LEFT':
+        this.destroySlice(slices.RIGHT)
         oldRooms = this.getSlice(slices.LEFT)
         this.swapSlices(slices.RIGHT, slices.CENTER)
         this.swapSlices(slices.CENTER, slices.LEFT)
@@ -86,6 +90,11 @@ export default class Chunk extends Phaser.GameObjects.Group{
       rooms.push(this.state.Rooms[s[i]])
     }
     return rooms
+  }
+  destroySlice(s){
+    for(let i in s){
+      this.state.Rooms[s[i]].destroyRoom()
+    }
   }
   swapSlices(s1, s2){
     let tempRooms = this.state.Rooms.slice();
@@ -140,7 +149,7 @@ export default class Chunk extends Phaser.GameObjects.Group{
   }
 
   get Entities(){
-    
+
   }
 
   getCurrentRoom(x, y){
@@ -156,7 +165,7 @@ export default class Chunk extends Phaser.GameObjects.Group{
   generateRoom (x, y) {
     return new Room({
       scene: this.scene,
-        state: {
+      state: {
         x: x,
         y: y,
         lastActive: Date.now(),
