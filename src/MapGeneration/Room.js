@@ -1,6 +1,7 @@
 import Helpers from '../Utils/Helpers'
 import noise from 'noisejs-ilmiont'
 import localforage from 'localforage'
+import co from 'co'
 
 export default class Room extends Phaser.GameObjects.Graphics{
 
@@ -20,41 +21,55 @@ export default class Room extends Phaser.GameObjects.Graphics{
         localforage.setItem(this.name, this.state)
       }
       noise.seed(this.state.seed)
-      this.depth = -1;
+      this.depth = -1
       this.scene.add.existing(this)
+
+      this.noiseGen = co.wrap(function* (x, y, w, h, s){
+        let nV
+        let bgGraphics = this.scene.make.graphics({x: 0, y: 0, add: false})
+        for(let i = 0; i < w; i += s ){
+          for(let j = 0; j < h; j += s ){
+            nV = Math.abs(noise.simplex2((x + i) / w, (y + j) / h))
+            bgGraphics.fillStyle(0x000000, nV)
+            bgGraphics.fillRect(i, j, s, s)
+          }
+        }
+        return yield Promise.resolve(bgGraphics)
+      })
+
       this.drawRoom()
     })
   }
 
   destroyRoom(){
-    this.coordDisplay.destroy()
+    this.bgGraphics.destroy()
     this.destroy()
   }
 
   drawRoom(){
     this.clear()
-    let config = {
-      x: this.position.x + 10,
-      y: this.position.y + 10,
-      text: this.coords.x + ',' + this.coords.y,
-      style: { fontSize:'36px', align:'center' }
-    }
-    this.coordDisplay = this.scene.make.text(config)
     if(this.isNew == true){
-      this.fillStyle(Phaser.Display.Color.GetColor(0, (this.noiseVal + .25) * 100, 255), Math.abs(this.noiseVal))
+      this.fillStyle(Phaser.Display.Color.GetColor(0, this.noiseVal * 255, 255), this.noiseVal)
     }
     else{
-      this.fillStyle(Phaser.Display.Color.GetColor(255, 0, 0), Math.abs(this.noiseVal))
+      this.fillStyle(Phaser.Display.Color.GetColor(255, this.noiseVal * 255, 0), this.noiseVal)
     }
     this.fillRect(this.position.x, this.position.y, this.size.width, this.size.height)
+    let pxSize = 50
+    this.noiseGen(this.position.x, this.position.y, this.size.width, this.size.height, pxSize).then((bgGraphics) =>{
+      bgGraphics.x = this.position.x
+      bgGraphics.y = this.position.y
+      bgGraphics.depth = -1
+      this.bgGraphics = this.scene.add.existing(bgGraphics)
+    })
   }
 
   get defaultState(){
     return {
       x: 0,
       y: 0,
-      width: 5000,
-      height: 5000,
+      width: 2000,
+      height: 2000,
       lastActive: Date.now(),
       seed: 0,
       noiseVal:0

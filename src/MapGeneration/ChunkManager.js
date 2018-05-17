@@ -31,9 +31,5 @@ export default class ChunkManager extends Phaser.GameObjects.GameObject {
       seed: 0
     }
   }
-
-  update(){
-
-  }
-
+  
 }

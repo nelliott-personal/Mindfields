@@ -33,6 +33,7 @@
     "html-webpack-plugin": "^2.30.1"
   },
   "dependencies": {
+    "co": "^4.6.0",
     "localforage": "^1.7.1",
     "noisejs-ilmiont": "^1.2.2",
     "phaser": "3.3.0",

@@ -29,7 +29,6 @@ export default class SpaceScene extends Phaser.Scene {
       }
     })
 
-    this.Rooms = this.add.group()
     this.Entities = this.add.group()
 
     this.Entities.add(
@@ -44,18 +43,18 @@ export default class SpaceScene extends Phaser.Scene {
     )
     this.Entities.add(
       new Asteroid({
-          scene: this,
-          key: 'spacerock',
-          x: 300,
-          y: 50,
-          state: {}
+        scene: this,
+        key: 'spacerock',
+        x: 300,
+        y: 50,
+        state: {}
       })
     )
 
     this.P = this.Entities.getChildren()[0]
     //this.physics.add.collider(this.P, this.Entities.getChildren()[1])
-
     this.input.mouse.capture = true
+
     this.setupCamera()
     this.setupKeys()
   }
