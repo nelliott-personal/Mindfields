@@ -16,8 +16,7 @@ export default class Room extends Phaser.GameObjects.Graphics{
       else{
         this.isNew = true
         this.state = Helpers.setState(config.state, this.defaultState)
-        //this.state.noiseVal = Math.abs(noise.simplex2(this.state.x, this.state.y))
-        this.state.noiseVal = ((noise.perlin2(this.state.x / 2, this.state.y / 2) * 2) + 1) / 2
+        this.state.noiseVal = Math.abs(noise.perlin2(this.state.x / 4, this.state.y / 4))
         localforage.setItem(this.name, this.state)
       }
       noise.seed(this.state.seed)
@@ -33,9 +32,7 @@ export default class Room extends Phaser.GameObjects.Graphics{
   }
 
   drawRoom(){
-    console.log('draw room')
     this.clear()
-
     let config = {
       x: this.position.x + 10,
       y: this.position.y + 10,
@@ -43,15 +40,12 @@ export default class Room extends Phaser.GameObjects.Graphics{
       style: { fontSize:'36px', align:'center' }
     }
     this.coordDisplay = this.scene.make.text(config)
-    //let t = this.scene.add.text(r.position.x + 10, r.position.y + 10, r.coords.x + ',' + r.coords.y, { fontSize:'36px', align:'center' })
-
     if(this.isNew == true){
-      this.fillStyle('0x0046FF', this.noiseVal)
+      this.fillStyle(Phaser.Display.Color.GetColor(0, (this.noiseVal + .25) * 100, 255), Math.abs(this.noiseVal))
     }
     else{
-        this.fillStyle('0xFF0000', this.noiseVal)
+      this.fillStyle(Phaser.Display.Color.GetColor(255, 0, 0), Math.abs(this.noiseVal))
     }
-
     this.fillRect(this.position.x, this.position.y, this.size.width, this.size.height)
   }
 

@@ -23,7 +23,6 @@ export default class Asteroid extends Entity{
   }
 
   update(time, delta){
-
     this.updatePosition()
   }
 
