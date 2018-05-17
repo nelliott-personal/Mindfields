@@ -123,11 +123,12 @@ export default class Player extends Entity{
           break;
         }
         force.x = xAcc 
-        force.y = yAcc 
+        this.setAngularVelocity(0)
         if (Phaser.Math.Difference(this.body.angle, force.angle() >= 0.05)) {
-            this.setRotation(Phaser.Math.Angle.RotateTo(this.body.angle, force.angle(), .12) );
+            this.setRotation(Phaser.Math.Angle.RotateTo(this.body.angle, force.angle(), .1) );
          }
       }
+
     }
     this.prev = new Phaser.Math.Vector2(this.state.x, this.state.y)
     this.updatePosition()

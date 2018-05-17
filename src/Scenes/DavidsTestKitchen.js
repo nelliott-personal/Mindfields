@@ -31,7 +31,17 @@ export default class DavidsTestKitchen extends Phaser.Scene {
                 state: this.state.Player,
                 targeter: this.add.image(50, 50, 'targeter')
             })
-        )        
+        )
+        this.Entities.add(
+            new Asteroid({
+                scene: this,
+                key: 'spacerock',
+                x: 300,
+                y: 50,
+                state: {}
+            })
+        )
+        
         this.setupCamera()
     }
 
