@@ -43,7 +43,10 @@ export default class Room extends Phaser.GameObjects.Graphics{
               nV2 = Math.abs(noise.perlin2((x + i) / w / 1.4, (y + j) / h / 1.4))
 
               if(nV2 < .05){
-
+                if(nV2 > .04995 && nV > .12){
+                  bgGraphics.fillStyle(0xAF83FF)
+                  bgGraphics.fillRect(i, j, s, s)
+                }
               }
               else if(nV2 > .3 && nV2 < .4){
 
