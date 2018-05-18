@@ -29,7 +29,10 @@ localforage.config({
 })
 
 //Uncomment to start a new game
-localforage.clear()
+localforage.clear().then((val) =>{
+  console.log('db clear')
+  console.log(val)
+})
 
 let config = {
     type: Phaser.WEBGL,

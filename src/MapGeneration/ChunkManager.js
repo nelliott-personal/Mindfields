@@ -15,10 +15,12 @@ export default class ChunkManager extends Phaser.GameObjects.GameObject {
     this.scene.add.existing(this)
     this.Chunk = new Chunk({
       scene: this.scene,
-      x: this.state.x,
-      y: this.state.y,
-      seed: this.state.seed,
-      Rooms: Array.apply(null, Array(9)).map(x => x = null)
+      state: {
+        x: this.state.x,
+        y: this.state.y,
+        seed: this.state.seed,
+        Rooms: Array.apply(null, Array(9)).map(x => x = null)
+      }
     })
     console.log('ChunkManager Init')
     console.log(this.Chunk.Rooms)
@@ -31,5 +33,5 @@ export default class ChunkManager extends Phaser.GameObjects.GameObject {
       seed: 0
     }
   }
-  
+
 }

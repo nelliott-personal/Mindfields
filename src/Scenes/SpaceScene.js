@@ -22,6 +22,7 @@ export default class SpaceScene extends Phaser.Scene {
     console.log('Saved State: ', SaveState.state)
     this.state = SaveState.state
     this.isStopped = false;
+    console.log(this.state.seed)
     this.CM = new ChunkManager({
       scene: this,
       state: {
