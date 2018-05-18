@@ -31,18 +31,25 @@ export default class Room extends Phaser.GameObjects.Graphics{
           for(let j = 0; j < h; j += s ){
             nV = Math.abs(noise.perlin2((x + i) / w, (y + j) / h))
 
-            if(nV < .1){
-              bgGraphics.fillStyle(0x00FF00)
+            if(nV < .12){
+              //bgGraphics.fillStyle(0x00FF00)
+              //bgGraphics.fillRect(i, j, s, s)
+              if(nV > .1199){
+                bgGraphics.fillStyle(0xFF0000)
+                bgGraphics.fillRect(i, j, s, s)
+              }
+            }
+            else{
+              bgGraphics.fillStyle(0x000000)
               bgGraphics.fillRect(i, j, s, s)
             }
 
-            else if(nV > .4 && nV < .5){
-              bgGraphics.fillStyle(0x880000)
-              bgGraphics.fillRect(i, j, s, s)
-            }
+
 
           }
         }
+        //bgGraphics.generateTexture(this.name + 'bgGraphics', 5000, 5000)
+        //return yield Promise.resolve(bgGraphics.generateTexture(this.name + 'bgGraphics', 5000, 5000))
         return yield Promise.resolve(bgGraphics)
       })
 
@@ -63,13 +70,17 @@ export default class Room extends Phaser.GameObjects.Graphics{
     else{
       this.fillStyle(Phaser.Display.Color.GetColor(255, this.noiseVal * 255, 0), this.noiseVal)
     }
-    //this.fillRect(this.position.x, this.position.y, this.size.width, this.size.height)
+    this.fillRect(this.position.x, this.position.y, this.size.width, this.size.height)
     let pxSize = 50
     this.noiseGen(this.position.x, this.position.y, this.size.width, this.size.height, pxSize).then((bgGraphics) =>{
       bgGraphics.x = this.position.x
       bgGraphics.y = this.position.y
       bgGraphics.depth = -1
       this.bgGraphics = this.scene.add.existing(bgGraphics)
+      //this.bgSprite = this.scene.add.sprite(this.position.x + this.size.width / 2, this.position.y + this.size.height / 2, this.name + 'bgGraphics')
+      //this.bgSprite = this.scene.make.sprite({x: this.position.x + this.size.width / 2, y: this.position.y + this.size.height / 2, add: true})
+      console.log(this.bgSprite)
+      //this.scene.add.sprite(this.position.x, this.position.y, bgGraphics)
     })
   }
 
@@ -77,8 +88,8 @@ export default class Room extends Phaser.GameObjects.Graphics{
     return {
       x: 0,
       y: 0,
-      width: 2000,
-      height: 2000,
+      width: 5000,
+      height: 5000,
       lastActive: Date.now(),
       seed: 0,
       noiseVal:0
