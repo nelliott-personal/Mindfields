@@ -16,11 +16,11 @@ export default class SpaceScene extends Phaser.Scene {
     this.load.image('ship', 'assets/images/ship.png')
     this.load.image('targeter', 'assets/images/crosshair.png')
     this.load.image('spacerock', 'assets/images/spacerock.png')
-    this.load.image('bg1', 'assets/images/bg1.png')
-    this.load.image('bg2', 'assets/images/bg2.png')
-    this.load.image('bg3', 'assets/images/bg3.png')
-    this.load.image('bg4', 'assets/images/bg4.png')
-    this.load.image('bg5', 'assets/images/bg5.png')
+    this.load.image('bg1', 'assets/images/bg/bg1.png')
+    this.load.image('bg2', 'assets/images/bg/bg2.png')
+    this.load.image('bg3', 'assets/images/bg/bg3.png')
+    this.load.image('bg4', 'assets/images/bg/bg4.png')
+    this.load.image('bg5', 'assets/images/bg/bg5.png')
   }
 
   create() {
