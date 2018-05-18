@@ -21,9 +21,7 @@ export default class Chunk extends Phaser.GameObjects.Group{
   constructor (config)
   {
     super(config.scene)
-    console.log(config.state.seed)
     this.state = Helpers.setState(config.state, this.defaultState)
-
     this.state.Rooms = this.setRooms(this.state.x, this.state.y, this.state.seed)
   }
 

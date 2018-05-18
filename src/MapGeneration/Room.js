@@ -29,6 +29,12 @@ export default class Room extends Phaser.GameObjects.Graphics{
         this.depth = -1
         this.scene.add.existing(this)
 
+        this.drawTile = co.wrap(function* (x, y, s, bG, col){
+          bG.fillStyle(col)
+          bG.fillRect(x, y, s, s)
+
+          return yield Promise.resolve(bG)
+        })
         this.noiseGen = co.wrap(function* (x, y, w, h, s){
           let nV
           let nV2
@@ -38,45 +44,43 @@ export default class Room extends Phaser.GameObjects.Graphics{
             for(let j = 0; j < h; j += s ){
               noise.seed(this.state.seed)
               nV = Math.abs(noise.perlin2((x + i) / w / 2.6, (y + j) / h / 2.6))
-
               noise.seed(this.state.seed * 2.2)
               nV2 = Math.abs(noise.perlin2((x + i) / w / 1.4, (y + j) / h / 1.4))
 
               if(nV2 < .05){
                 if(nV2 > .04995 && nV > .12){
-                  bgGraphics.fillStyle(0xAF83FF)
-                  bgGraphics.fillRect(i, j, s, s)
+                  this.drawTile(i, j, s, bgGraphics, 0xAF83FF)
                 }
               }
               else if(nV2 > .3 && nV2 < .4){
 
               }
               else if(nV < .12){
-                //bgGraphics.fillStyle(0x00FF00)
-                //bgGraphics.fillRect(i, j, s, s)
                 if(nV > .1199 && nV2 >= .05){
-                  bgGraphics.fillStyle(0xFF0000)
-                  bgGraphics.fillRect(i, j, s, s)
+                  this.drawTile(i, j, s, bgGraphics, 0xFF0000)
                   if(nV >= .11998){
-                    bgGraphics.fillStyle(0x00FF00)
-                    bgGraphics.fillRect(i, j, s, s)
+                    this.drawTile(i, j, s, bgGraphics, 0xFF0000)
                   }
                 }
               }
               else{
-                //bgGraphics.fillStyle(0x000000)
-                bgGraphics.fillStyle(Phaser.Display.Color.GetColor(nV * 100, nV * 300, Math.abs(nV * 200 - 200)), this.noiseVal)
+                bgGraphics.fillStyle(Phaser.Display.Color.GetColor(nV * 100, nV * 300, Math.abs(nV * 200 - 200)))
                 bgGraphics.fillRect(i, j, s, s)
               }
-
-
-
             }
           }
-          //bgGraphics.generateTexture(this.name + 'bgGraphics', 5000, 5000)
-          //return yield Promise.resolve(bgGraphics.generateTexture(this.name + 'bgGraphics', 5000, 5000))
           return yield Promise.resolve(bgGraphics)
         })
+
+        this.generateTiles = co.wrap(function* (){
+
+          let bg = this.scene.add.tileSprite(this.position.x, this.position.y, 2500, 2500, 'bg5');
+          bg.depth = -2
+          //return yield Promise.resolve(map.fill('Tile Layer 1', 0, 0, 2500, 2500, true, layer))
+
+        })
+
+
 
         this.drawRoom()
       }
@@ -100,19 +104,19 @@ export default class Room extends Phaser.GameObjects.Graphics{
       this.fillStyle(Phaser.Display.Color.GetColor(255 * this.noiseVal, this.noiseVal * 50, 0), this.noiseVal)
     }
     */
-    this.lineStyle(10, 0xFFFFFF, .1)
-    this.strokeRect(this.position.x, this.position.y, this.size.width, this.size.height)
-    let pxSize = 50
-    this.noiseGen(this.position.x, this.position.y, this.size.width, this.size.height, pxSize).then((bgGraphics) =>{
-      bgGraphics.x = this.position.x
-      bgGraphics.y = this.position.y
-      bgGraphics.depth = -1
-      this.bgGraphics = this.scene.add.existing(bgGraphics)
-      //this.bgSprite = this.scene.add.sprite(this.position.x + this.size.width / 2, this.position.y + this.size.height / 2, this.name + 'bgGraphics')
-      //this.bgSprite = this.scene.make.sprite({x: this.position.x + this.size.width / 2, y: this.position.y + this.size.height / 2, add: true})
-      //this.scene.add.sprite(this.position.x, this.position.y, bgGraphics)
+    this.generateTiles().then(() =>{
+      let pxSize = 50
+      this.noiseGen(this.position.x, this.position.y, this.size.width, this.size.height, pxSize).then((bgGraphics) => {
+        bgGraphics.x = this.position.x
+        bgGraphics.y = this.position.y
+        bgGraphics.depth = -1
+        this.bgGraphics = this.scene.add.existing(bgGraphics)
+
+      })
     })
+
   }
+
 
   get defaultState(){
     return {

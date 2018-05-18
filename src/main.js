@@ -31,7 +31,6 @@ localforage.config({
 //Uncomment to start a new game
 localforage.clear().then((val) =>{
   console.log('db clear')
-  console.log(val)
 })
 let config = {
     type: Phaser.WEBGL,
@@ -53,11 +52,9 @@ window['game'] = {}
 let startGame = function (val) {
     SaveState.state = val;
     window['game'] = new Phaser.Game(config)
-
     window['game'].canvas.addEventListener('mousedown', function () {
         window['game'].input.mouse.requestPointerLock();
     });
-    console.log(window['game'].device)
 }
 
 addEventListener('keypress', function(e){

@@ -16,13 +16,17 @@ export default class SpaceScene extends Phaser.Scene {
     this.load.image('ship', 'assets/images/ship.png')
     this.load.image('targeter', 'assets/images/crosshair.png')
     this.load.image('spacerock', 'assets/images/spacerock.png')
+    this.load.image('bg1', 'assets/images/bg1.png')
+    this.load.image('bg2', 'assets/images/bg2.png')
+    this.load.image('bg3', 'assets/images/bg3.png')
+    this.load.image('bg4', 'assets/images/bg4.png')
+    this.load.image('bg5', 'assets/images/bg5.png')
   }
 
   create() {
     console.log('Saved State: ', SaveState.state)
     this.state = SaveState.state
     this.isStopped = false;
-    console.log(this.state.seed)
     this.CM = new ChunkManager({
       scene: this,
       state: {
@@ -36,10 +40,10 @@ export default class SpaceScene extends Phaser.Scene {
       new Player({
         scene:this,
         key: 'ship',
-        x: 50,
-        y: 50,
+        x: 1250,
+        y: 1250,
         state: this.state.Player,
-        targeter: this.add.image(50, 50, 'targeter')
+        targeter: this.add.image(1250, 1250, 'targeter')
       })
     )
     this.Entities.add(
@@ -55,7 +59,6 @@ export default class SpaceScene extends Phaser.Scene {
     this.P = this.Entities.getChildren()[0]
     //this.physics.add.collider(this.P, this.Entities.getChildren()[1])
     this.input.mouse.capture = true
-
     this.setupCamera()
     this.setupKeys()
   }
@@ -72,7 +75,6 @@ export default class SpaceScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-
     for(let gobj of this.Entities.getChildren()){
       gobj.update(time, delta)
     }
