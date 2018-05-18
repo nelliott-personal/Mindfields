@@ -23,7 +23,7 @@ export default class Chunk extends Phaser.GameObjects.Group{
     super(config.scene)
     console.log(config.state.seed)
     this.state = Helpers.setState(config.state, this.defaultState)
-    
+
     this.state.Rooms = this.setRooms(this.state.x, this.state.y, this.state.seed)
   }
 
@@ -155,8 +155,8 @@ export default class Chunk extends Phaser.GameObjects.Group{
 
   getCurrentRoom(x, y){
     for(let r of this.Rooms){
-      if(x >= r.position.x && x < r.position.x + r.size.width){
-        if(y >= r.position.y && y < r.position.y + r.size.height){
+      if(x > r.position.x && x < r.position.x + r.size.width){
+        if(y > r.position.y && y < r.position.y + r.size.height){
           return r
         }
       }

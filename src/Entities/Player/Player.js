@@ -10,7 +10,7 @@ export default class Player extends Entity{
     super(config)
     this.state.x = config.x
     this.state.y = config.y
-    
+
     ///Physics Settings
     this.setBody({
         type: 'rectangle',
@@ -21,14 +21,14 @@ export default class Player extends Entity{
     this.acc = this.state.physics.acc
     this.body.maxVelocity = 10
     this.setMass(this.state.physics.mass)
-    this.setFrictionAir(0)
+    this.setFrictionAir(.01)
 
 
     //this.body.maxAngular = 800
     //this.body.setFriction(10)
     //this.body.setDrag(300) //Keep Drag off
-    this.scaleX = .5
-    this.scaleY = .5
+    this.scaleX = .4
+    this.scaleY = .4
 
     this.targeter = config.targeter;
     this.targeter.scaleX = .5
