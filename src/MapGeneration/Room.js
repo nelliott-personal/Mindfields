@@ -26,7 +26,7 @@ export default class Room extends Phaser.GameObjects.Graphics{
           localforage.setItem(this.name, this.state)
         }
 
-        //this.depth = -1
+        this.depth = -1
         this.scene.add.existing(this)
 
         this.noiseGen = co.wrap(function* (x, y, w, h, s){

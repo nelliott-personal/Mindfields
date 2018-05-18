@@ -21,7 +21,7 @@ export default class Player extends Entity{
     this.acc = this.state.physics.acc
     this.body.maxVelocity = 10
     this.setMass(this.state.physics.mass)
-    this.setFrictionAir(.01)
+    this.setFrictionAir(0)
 
 
     //this.body.maxAngular = 800
