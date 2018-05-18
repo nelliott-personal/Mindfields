@@ -10,7 +10,7 @@ export default class DavidsTestKitchen extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('spacebg', 'assets/images/spacebg.png')
+        this.load.image('spacebg', 'assets/images/bg/spacebg.png')
         this.load.image('ship', 'assets/images/ship.png')
         this.load.image('targeter', 'assets/images/crosshair.png')
         this.load.image('spacerock', 'assets/images/spacerock.png')
