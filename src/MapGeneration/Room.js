@@ -52,7 +52,7 @@ export default class Room extends Phaser.GameObjects.Graphics{
             else if(nV2 < .05){
 
             }
-            else if(nV2 > .97){
+            else if(nV2 > .5 && nV2 < .6){
 
             }
             else{
@@ -87,7 +87,7 @@ export default class Room extends Phaser.GameObjects.Graphics{
       this.fillStyle(Phaser.Display.Color.GetColor(255 * this.noiseVal, this.noiseVal * 50, 0), this.noiseVal)
     }
     this.fillRect(this.position.x, this.position.y, this.size.width, this.size.height)
-    let pxSize = 50
+    let pxSize = 80
     this.noiseGen(this.position.x, this.position.y, this.size.width, this.size.height, pxSize).then((bgGraphics) =>{
       bgGraphics.x = this.position.x
       bgGraphics.y = this.position.y
@@ -103,8 +103,8 @@ export default class Room extends Phaser.GameObjects.Graphics{
     return {
       x: 0,
       y: 0,
-      width: 3500,
-      height: 3500,
+      width: 5000,
+      height: 5000,
       lastActive: Date.now(),
       seed: 0,
       noiseVal:0
