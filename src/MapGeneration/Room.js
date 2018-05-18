@@ -29,9 +29,18 @@ export default class Room extends Phaser.GameObjects.Graphics{
         let bgGraphics = this.scene.make.graphics({x: 0, y: 0, add: false})
         for(let i = 0; i < w; i += s ){
           for(let j = 0; j < h; j += s ){
-            nV = Math.abs(noise.simplex2((x + i) / w, (y + j) / h))
-            bgGraphics.fillStyle(0x000000, nV)
-            bgGraphics.fillRect(i, j, s, s)
+            nV = Math.abs(noise.perlin2((x + i) / w, (y + j) / h))
+
+            if(nV < .1){
+              bgGraphics.fillStyle(0x00FF00)
+              bgGraphics.fillRect(i, j, s, s)
+            }
+
+            else if(nV > .4 && nV < .5){
+              bgGraphics.fillStyle(0x880000)
+              bgGraphics.fillRect(i, j, s, s)
+            }
+
           }
         }
         return yield Promise.resolve(bgGraphics)
@@ -54,7 +63,7 @@ export default class Room extends Phaser.GameObjects.Graphics{
     else{
       this.fillStyle(Phaser.Display.Color.GetColor(255, this.noiseVal * 255, 0), this.noiseVal)
     }
-    this.fillRect(this.position.x, this.position.y, this.size.width, this.size.height)
+    //this.fillRect(this.position.x, this.position.y, this.size.width, this.size.height)
     let pxSize = 50
     this.noiseGen(this.position.x, this.position.y, this.size.width, this.size.height, pxSize).then((bgGraphics) =>{
       bgGraphics.x = this.position.x

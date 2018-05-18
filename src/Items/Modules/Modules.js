@@ -1,0 +1,13 @@
+const MODULE_TYPES = {
+    ENGINE: 1,
+    MINING: 2,
+    UTILITY: 3,
+    WEAPON_OMNI: 4,
+    WEAPON_MISSILE: 5,
+    WEAPON_TURRET: 6,
+    WEAPON_FIXED: 7,
+    AUTOMATION: 8,
+    ADVANCED: 9
+}
+
+export { MODULE_TYPES }

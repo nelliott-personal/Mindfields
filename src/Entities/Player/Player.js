@@ -1,7 +1,7 @@
 import SaveState from '../../Utils/SaveState'
 import Helpers from '../../Utils/Helpers'
 import Entity from '../Entity'
-import Inventory from '../../Items/Inventory'
+import Ship from '../../Ships/Ship'
 
 export default class Player extends Entity{
 
@@ -10,7 +10,7 @@ export default class Player extends Entity{
     super(config)
     this.state.x = config.x
     this.state.y = config.y
-    this.inventory = new Inventory(this.state.inventory)
+    
     ///Physics Settings
     this.setBody({
         type: 'rectangle',
