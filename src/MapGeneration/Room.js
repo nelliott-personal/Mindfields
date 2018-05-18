@@ -35,7 +35,7 @@ export default class Room extends Phaser.GameObjects.Graphics{
             nV = Math.abs(noise.perlin2((x + i) / w, (y + j) / h))
 
             noise.seed(this.state.seed * 2)
-            nV2 = Math.abs(noise.perlin2((x + i) / w * 1.1, (y + j) / h * 1.1))
+            nV2 = Math.abs(noise.simplex2((x + i) / w / 1.1, (y + j) / h / 1.1))
 
             if(nV < .12){
               //bgGraphics.fillStyle(0x00FF00)
@@ -49,7 +49,7 @@ export default class Room extends Phaser.GameObjects.Graphics{
                 }
               }
             }
-            else if(nV2 < .05){
+            else if(nV2 < .07){
 
             }
             else if(nV2 > .5 && nV2 < .6){
@@ -66,7 +66,7 @@ export default class Room extends Phaser.GameObjects.Graphics{
         }
         //bgGraphics.generateTexture(this.name + 'bgGraphics', 5000, 5000)
         //return yield Promise.resolve(bgGraphics.generateTexture(this.name + 'bgGraphics', 5000, 5000))
-        return yield Promise.resolve(bgGraphics.generateTexture())
+        return yield Promise.resolve(bgGraphics)
       })
 
       this.drawRoom()

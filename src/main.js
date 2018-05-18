@@ -33,12 +33,11 @@ localforage.clear().then((val) =>{
   console.log('db clear')
   console.log(val)
 })
-
 let config = {
     type: Phaser.WEBGL,
     parent: 'content',
-    width: 1024,
-    height: 768,
+    width: window.screen.availWidth,
+    height: window.screen.availHeight,
     scaleMode: 0,
     physics: {
         default: 'matter',
@@ -49,16 +48,23 @@ let config = {
     },
     scene: Scenes
 }
-let game = {}
+window['game'] = {}
 
 let startGame = function (val) {
     SaveState.state = val;
-    game = new Phaser.Game(config)
+    window['game'] = new Phaser.Game(config)
 
-    game.canvas.addEventListener('mousedown', function () {
-        game.input.mouse.requestPointerLock();
+    window['game'].canvas.addEventListener('mousedown', function () {
+        window['game'].input.mouse.requestPointerLock();
     });
+    console.log(window['game'].device)
 }
+
+addEventListener('keypress', function(e){
+  if(e.key.toLowerCase() == 'q'){
+    window['game']['canvas'][game.device.fullscreen.request]();
+  }
+})
 
 SaveState.loadState().then((val) => {
     if (!val) {
