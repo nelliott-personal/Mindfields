@@ -130,8 +130,8 @@ export default class Player extends Entity {
         this.prev = new Phaser.Math.Vector2(this.state.x, this.state.y)
         this.updatePosition()
         this.applyForce({ x: inputVector.x / 100, y: inputVector.y / 100 })
-        this.setVelocityX(Phaser.Math.Clamp(this.body.velocity.x, -this.body.maxVelocity, this.body.maxVelocity))
-        this.setVelocityY(Phaser.Math.Clamp(this.body.velocity.y, -this.body.maxVelocity, this.body.maxVelocity))
+        this.setVelocityX(Phaser.Math.Clamp((inputVector.x != 0) ? this.body.velocity.x: this.body.velocity.x * 0.95, -this.body.maxVelocity, this.body.maxVelocity))
+        this.setVelocityY(Phaser.Math.Clamp((inputVector.y != 0) ? this.body.velocity.y : this.body.velocity.y * 0.95, -this.body.maxVelocity, this.body.maxVelocity))
         this.targeter.x += this.x - this.prev.x
         this.targeter.y += this.y - this.prev.y
 
@@ -170,6 +170,6 @@ export default class Player extends Entity {
 
         if (Math.abs(this.body.angularVelocity) > this.maxTurn) {
             this.setAngularVelocity(this.body.angularVelocity *= 0.85)
-        }
+        }       
     }
 }
