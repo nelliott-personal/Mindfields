@@ -57,12 +57,6 @@ let startGame = function (val) {
     });
 }
 
-addEventListener('keypress', function(e){
-  if(e.key.toLowerCase() == 'q'){
-    window['game']['canvas'][game.device.fullscreen.request]();
-  }
-})
-
 SaveState.loadState().then((val) => {
     if (!val) {
         console.log('new game')

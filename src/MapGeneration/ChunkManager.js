@@ -12,7 +12,6 @@ export default class ChunkManager extends Phaser.GameObjects.GameObject {
   constructor(config) {
     super(config.scene)
     this.state = Helpers.setState(config.state, this.defaultState)
-    this.scene.add.existing(this)
     this.Chunk = new Chunk({
       scene: this.scene,
       state: {

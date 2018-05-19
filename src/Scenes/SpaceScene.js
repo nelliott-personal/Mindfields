@@ -59,6 +59,7 @@ export default class SpaceScene extends Phaser.Scene {
     this.P = this.Entities.getChildren()[0]
     //this.physics.add.collider(this.P, this.Entities.getChildren()[1])
     this.input.mouse.capture = true
+    this.isPaused = false;
     this.setupCamera()
     this.setupKeys()
   }
@@ -72,6 +73,27 @@ export default class SpaceScene extends Phaser.Scene {
       z: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
       x: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X)
     }
+
+    addEventListener('keydown', (e) => {
+      if(e.keyCode == 9){
+        e.preventDefault()
+        if(this.isPaused){
+          this.isPaused = false
+          this.scene.get('PauseMenu').close()
+          this.scene.resume()
+        }
+        else{
+          this.isPaused = true
+          this.scene.pause()
+          this.scene.get('PauseMenu').open()
+        }
+      }
+    })
+    addEventListener('keypress', function(e){
+      if(e.key.toLowerCase() == 'q'){
+        window['game']['canvas'][game.device.fullscreen.request]();
+      }
+    })
   }
 
   update(time, delta) {
