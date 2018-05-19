@@ -23,6 +23,7 @@ export default class Player extends Entity {
         this.setMass(this.state.physics.mass)
         this.setFrictionAir(0)
         this.targetAngle = 0
+        this.setBounce(0.5, 0.5)
 
         //this.body.maxAngular = 800
         //this.body.setFriction(10)
@@ -34,6 +35,7 @@ export default class Player extends Entity {
         this.targeter.scaleX = .5
         this.targeter.scaleY = .5
         this.targeter.depth = 10
+        this.targeter.setAlpha(0.65)
 
         this.inputstate = {
             up: config.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
@@ -86,9 +88,9 @@ export default class Player extends Entity {
             x: 0,
             y: 0,
             physics: { //Placeholder physics parameters. Should be defined from ship type/ inventory data and added to config in a preload function before the constructor fires
-                mass: 1000,
+                mass: 300,
                 acc: 10,
-                maxVelocity: 10
+                maxVelocity: 5
             },
             inventory: [],
             ships: [{
@@ -123,13 +125,13 @@ export default class Player extends Entity {
                         break;
                 }
                 this.targetAngle = Phaser.Math.Angle.WrapDegrees(Phaser.Math.RadToDeg(inputVector.angle()))
-
+                
             }
 
         }
         this.prev = new Phaser.Math.Vector2(this.state.x, this.state.y)
         this.updatePosition()
-        this.applyForce({ x: inputVector.x / 100, y: inputVector.y / 100 })
+        this.applyForce({ x: inputVector.x / 1000, y: inputVector.y / 1000 })
         this.setVelocityX(Phaser.Math.Clamp((inputVector.x != 0) ? this.body.velocity.x: this.body.velocity.x * 0.95, -this.body.maxVelocity, this.body.maxVelocity))
         this.setVelocityY(Phaser.Math.Clamp((inputVector.y != 0) ? this.body.velocity.y : this.body.velocity.y * 0.95, -this.body.maxVelocity, this.body.maxVelocity))
         this.targeter.x += this.x - this.prev.x
@@ -167,9 +169,10 @@ export default class Player extends Entity {
             }
 
         }
-
         if (Math.abs(this.body.angularVelocity) > this.maxTurn) {
             this.setAngularVelocity(this.body.angularVelocity *= 0.85)
-        }       
+        }
+        this.setVelocityX(Phaser.Math.Clamp(this.body.velocity.x, -this.state.physics.maxVelocity, this.state.physics.maxVelocity))
+        this.setVelocityY(Phaser.Math.Clamp(this.body.velocity.y, -this.state.physics.maxVelocity, this.state.physics.maxVelocity))       
     }
 }
