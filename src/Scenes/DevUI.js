@@ -13,6 +13,6 @@ export default class DevUI extends Phaser.Scene {
     }
 
     update() {
-        this.fps.setText('FPS: ' + game.loop.actualFps)
+        this.fps.setText('FPS: ' + Math.round( game.loop.actualFps ))
     }
 }
