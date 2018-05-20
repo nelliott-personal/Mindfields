@@ -35,9 +35,10 @@ export default class Chunk extends Phaser.GameObjects.Group{
   }
 
   setRooms (x, y, seed) {
-    var xInc = -1
-    var yInc = -1
+    let xInc = -1
+    let yInc = -1
     let rooms = new Array()
+    
     for(var room of this.state.Rooms){
       rooms.push(this.generateRoom(x + xInc, y + yInc))
       xInc++
