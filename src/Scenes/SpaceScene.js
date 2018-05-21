@@ -62,6 +62,14 @@ export default class SpaceScene extends Phaser.Scene {
     this.isPaused = false;
     this.setupCamera()
     this.setupKeys()
+    this.setupBG()
+  }
+
+  setupBG(){
+    this.bg = this.add.tileSprite(window.screen.availWidth / 2, window.screen.availHeight / 2, window.screen.availWidth, window.screen.availHeight, 'bg5')
+    //this.bg.setOrigin(.5)
+    this.bg.depth = -2
+    this.bg.setScrollFactor(0)
   }
 
   setupCamera(){
@@ -97,6 +105,9 @@ export default class SpaceScene extends Phaser.Scene {
   }
 
   update(time, delta) {
+    this.bg.tilePositionX = this.P.x * .2
+    this.bg.tilePositionY = this.P.y * .2
+
     for(let gobj of this.Entities.getChildren()){
       gobj.update(time, delta)
     }

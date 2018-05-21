@@ -74,8 +74,7 @@ export default class Room extends Phaser.GameObjects.Graphics{
 
         this.generateTiles = co.wrap(function* (){
 
-          let bg = this.scene.add.tileSprite(this.position.x, this.position.y, this.size.width, this.size.height, 'bg5');
-          bg.depth = -2
+          
           //return yield Promise.resolve(map.fill('Tile Layer 1', 0, 0, 2500, 2500, true, layer))
 
         })
