@@ -105,8 +105,7 @@ export default class SpaceScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    this.bg.tilePositionX = this.P.x * .2
-    this.bg.tilePositionY = this.P.y * .2
+    this.bg.setTilePosition(this.P.x * .25, this.P.y * .25)
 
     for(let gobj of this.Entities.getChildren()){
       gobj.update(time, delta)
