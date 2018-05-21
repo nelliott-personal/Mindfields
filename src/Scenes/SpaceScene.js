@@ -66,8 +66,8 @@ export default class SpaceScene extends Phaser.Scene {
   }
 
   setupBG(){
-    this.bg = this.add.tileSprite(window.screen.availWidth / 2, window.screen.availHeight / 2, window.screen.availWidth, window.screen.availHeight, 'bg5')
-    //this.bg.setOrigin(.5)
+    this.bg = this.add.tileSprite(0, 0, window.screen.availWidth, window.screen.availHeight, 'bg5')
+    this.bg.setOrigin(0)
     this.bg.depth = -2
     this.bg.setScrollFactor(0)
   }
