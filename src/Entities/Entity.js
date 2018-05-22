@@ -8,6 +8,8 @@ export default class Entity extends Phaser.Physics.Matter.Sprite {
         this.state = Helpers.setState(config.state, this.defaultState)
         this.addListener('roomchange', this.changedRoom, this)
         this.loadTimeout = {}
+
+        this.fireEvent('addEntity')
     }
     get defaultState() {
         return {
@@ -30,6 +32,9 @@ export default class Entity extends Phaser.Physics.Matter.Sprite {
     set previousRoom(pR) {
         this.state.previousRoom = pR
         return this.state.previousRoom
+    }
+    fireEvent(e) {
+        this.scene.sys.events.emit(e, this)
     }
     save() {
         //localforage.save()

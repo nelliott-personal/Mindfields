@@ -14,11 +14,13 @@ export default class DavidsTestKitchen extends Phaser.Scene {
         this.load.image('ship', 'assets/images/ship.png')
         this.load.image('targeter', 'assets/images/crosshair.png')
         this.load.image('spacerock', 'assets/images/spacerock.png')
+        this.scene.launch('DevUI', { gameScene: this })
     }
 
     create() {
-        var bg = this.add.image(50, 50, 'spacebg')
+        var bg = this.add.image(0, 0, 'spacebg')
         bg.depth = -10
+        //bg.setOrigin(0,0)
         this.state = SaveState.state
         this.Entities = this.add.group(this)
 
@@ -33,26 +35,35 @@ export default class DavidsTestKitchen extends Phaser.Scene {
             })
         )
         this.Entities.add(
-            new Asteroid({
+            this.A = new Asteroid({
                 scene: this,
                 key: 'spacerock',
                 x: 300,
                 y: 50,
-                state: {}
+                state: {
+                    currentHealth: 10000
+                }
             })
         )
-        
+
         this.setupCamera()
         this.debugText = this.add.container(this.P.x, this.P.y + 48)
-        let c1 = this.add.text(10, 22, 'Current Angle: 0', { font: '12px Arial', fill: '#FFFFFF', align: 'left' })
-        let c2 = this.add.text(10, 2, 'Target Angle: 0', { font: '12px Arial', fill: '#FFFFFF', align: 'left' })
-        this.debugText.add([c1, c2])
+        //let c1 = this.add.text(10, 22, 'Current Angle: 0', { font: '12px Arial', fill: '#FFFFFF', align: 'left' })
+        //let c2 = this.add.text(10, 2, 'Target Angle: 0', { font: '12px Arial', fill: '#FFFFFF', align: 'left' })
+        //this.debugText.add([c1, c2])
+
+        //this.scene.gameScene = this
         //Phaser.Display.Align.To.BottomCenter(this.debugText, this.Entities.children.entries[1], 200, 12)
 
+        this.inputstate = {
+            z: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
+            x: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X)
+        }
     }
 
     setupCamera() {
-        this.cameras.main.startFollow(this.P)
+        this.cameras.main.setScroll(this.P.x - this.cameras.main.width / 2, this.P.y - this.cameras.main.height / 2)
+        //this.cameras.main.startFollow(this.P)
     }
 
     update(time, delta) {
@@ -70,8 +81,8 @@ export default class DavidsTestKitchen extends Phaser.Scene {
             }
         }
 
-        this.debugText.getAt(0).setText('Current Angle: ' + this.P.angle)
-        this.debugText.getAt(1).setText('Target Angle: ' + this.P.targetAngle)
-        this.debugText.setPosition( this.P.x - 48, this.P.y + 48)
+        //this.debugText.getAt(0).setText('Current Angle: ' + this.P.angle)
+        //this.debugText.getAt(1).setText('Target Angle: ' + this.P.targetAngle)
+        //this.debugText.setPosition(this.P.x - 48, this.P.y + 48)
     }
 }
