@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="2018.04.18" orientation="orthogonal" renderorder="right-down" width="14" height="14" tilewidth="50" tileheight="50" infinite="1" nextobjectid="1">
+ <tileset firstgid="1" name="Viscera_50x50" tilewidth="50" tileheight="50" tilecount="384" columns="32">
+  <image source="viscera_blue_transparent.png" width="1600" height="600"/>
+ </tileset>
+ <tileset firstgid="385" source="Viscera_Blue_tileset.tsx"/>
+ <layer name="Tile Layer 1" width="14" height="14">
+  <data encoding="base64" compression="zlib">
+   <chunk x="0" y="0" width="16" height="16">
+   eJyzYWBg8GdkYHAH4gaGUTAKRsFIAgBKyQFV
+  </chunk>
+  </data>
+ </layer>
+</map>

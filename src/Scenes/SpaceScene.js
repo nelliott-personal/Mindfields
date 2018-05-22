@@ -21,6 +21,8 @@ export default class SpaceScene extends Phaser.Scene {
         this.load.image('bg3', 'assets/images/bg/bg3.png')
         this.load.image('bg4', 'assets/images/bg/bg4.png')
         this.load.image('bg5', 'assets/images/bg/bg5.png')
+        this.load.tilemapTiledJSON('viscerabluemap', 'assets/images/bg/Viscera_Map_50x50.json')
+        this.load.image('viscerablue', 'assets/images/bg/viscera_blue_transparent.png')
         this.scene.launch('DevUI', { gameScene: this })
     }
 
@@ -67,7 +69,7 @@ export default class SpaceScene extends Phaser.Scene {
     }
 
     setupBG() {
-        this.bg = this.add.tileSprite(0, 0, window.screen.availWidth, window.screen.availHeight, 'bg5')
+        this.bg = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, 'bg5')
         this.bg.setOrigin(0)
         this.bg.depth = -2
         this.bg.setScrollFactor(0)
