@@ -40,43 +40,7 @@ class Chassis {
 
 }
 
-class Health {
 
-  constructor(state = null){
-
-  }
-
-  get defaultState(){
-
-    return {
-      maxHealth: 100,
-      currentHealth: 100
-    }
-
-  }
-
-
-  changeHealth(h){
-    if(this.currentHealth + h <= 0){
-      this.emit('you-dead')
-    }
-    this.currentHealth += h
-
-  }
-  set currentHealth(h){
-    this.state.currentHealth = Phaser.Math.Clamp(h, 0, this.maxHealth)
-
-  }
-
-  get currentHealth(){
-    return this.state.currentHealth
-  }
-
-  get maxHealth(){
-    return this.state.maxHealth
-  }
-
-}
 
 class Energy {
 
@@ -86,4 +50,4 @@ class Energy {
 
 }
 
-export { Ship, Chassis, Health, Energy }
+export { Ship, Chassis, Energy }

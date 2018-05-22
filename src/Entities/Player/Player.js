@@ -2,6 +2,7 @@ import SaveState from '../../Utils/SaveState'
 import Helpers from '../../Utils/Helpers'
 import Entity from '../Entity'
 import Ship from '../../Ships/Ship'
+import Health from '../Components/Health'
 
 export default class Player extends Entity {
 
@@ -45,6 +46,7 @@ export default class Player extends Entity {
             space: config.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
         }
 
+        this.health = new Health(config)
         console.log('Player Init')
 
         // Move reticle upon locked pointer move
@@ -55,6 +57,7 @@ export default class Player extends Entity {
                 this.targeter.y += pointer.movementY;
             }
         }, this);
+
     }
 
     changedRoom(e) {
@@ -132,8 +135,8 @@ export default class Player extends Entity {
         this.prev = new Phaser.Math.Vector2(this.state.x, this.state.y)
         this.updatePosition()
         this.applyForce({ x: inputVector.x / 1000, y: inputVector.y / 1000 })
-        this.setVelocityX(Phaser.Math.Clamp((inputVector.x != 0) ? this.body.velocity.x: this.body.velocity.x * 0.95, -this.body.maxVelocity, this.body.maxVelocity))
-        this.setVelocityY(Phaser.Math.Clamp((inputVector.y != 0) ? this.body.velocity.y : this.body.velocity.y * 0.95, -this.body.maxVelocity, this.body.maxVelocity))
+        this.setVelocityX(Phaser.Math.Clamp((inputVector.x != 0) ? this.body.velocity.x: this.body.velocity.x * 0.98, -this.body.maxVelocity, this.body.maxVelocity))
+        this.setVelocityY(Phaser.Math.Clamp((inputVector.y != 0) ? this.body.velocity.y : this.body.velocity.y * 0.98, -this.body.maxVelocity, this.body.maxVelocity))
         this.targeter.x += this.x - this.prev.x
         this.targeter.y += this.y - this.prev.y
 
