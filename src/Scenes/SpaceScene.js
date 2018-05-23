@@ -69,10 +69,12 @@ export default class SpaceScene extends Phaser.Scene {
     }
 
     setupBG() {
+
         this.bg = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, 'bg5')
         this.bg.setOrigin(0)
         this.bg.depth = -2
         this.bg.setScrollFactor(0)
+
     }
 
     setupCamera() {

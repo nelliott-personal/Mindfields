@@ -43,31 +43,36 @@ export default class Room extends Phaser.GameObjects.Graphics{
 
           let mapData = []
 
-          for(let i = 0; i < w; i += s ){
+          for(let j = 0; j < h; j += s ){
             let row = []
-            for(let j = 0; j < h; j += s ){
+            for(let i = 0; i < h; i += s ){
               noise.seed(this.state.seed)
               nV = Math.abs(noise.perlin2((x + i) / w / 2.6, (y + j) / h / 2.6))
               noise.seed(this.state.seed * 2.2)
               nV2 = Math.abs(noise.perlin2((x + i) / w / 1.4, (y + j) / h / 1.4))
-
               if(nV2 < .05){
                 if(nV2 > .04995 && nV > .12){
                   //this.drawTile(i, j, s, bgGraphics, 0xAF83FF)
+                  row.push(94)
                 }
-                row.push(null)
+                else{
+                  row.push(null)
+                }
               }
               else if(nV2 > .3 && nV2 < .4){
                 row.push(null)
               }
               else if(nV < .12){
                 if(nV > .1199 && nV2 >= .05){
+                  row.push(95)
                   //this.drawTile(i, j, s, bgGraphics, 0xFF0000)
                   if(nV >= .11998){
                     //this.drawTile(i, j, s, bgGraphics, 0xFF0000)
                   }
                 }
-                row.push(null)
+                else{
+                  row.push(null)
+                }
               }
               else{
                 //bgGraphics.fillStyle(Phaser.Display.Color.GetColor(nV * 100, nV * 300, Math.abs(nV * 200 - 200)))
@@ -78,11 +83,16 @@ export default class Room extends Phaser.GameObjects.Graphics{
             }
             mapData.push(row)
           }
+
           let map = this.scene.make.tilemap({ data:mapData, tileWidth:50, tileHeight:50 })
           let tileset = map.addTilesetImage('viscerablue')
           let layer = map.createDynamicLayer(0, tileset, this.position.x, this.position.y)
-          //layer.setCollisionBetween(95, 97)
-          //this.scene.matter.world.convertTilemapLayer(layer);
+
+          //map.setCollision(96)
+          this.scene.matter.world.convertTilemapLayer(layer, { isStatic:true })
+
+
+
           return yield Promise.resolve(bgGraphics)
         })
 
@@ -120,12 +130,12 @@ export default class Room extends Phaser.GameObjects.Graphics{
     this.generateTiles().then(() =>{
       let pxSize = 50
       this.noiseGen(this.position.x, this.position.y, this.size.width, this.size.height, pxSize).then((bgGraphics) => {
-        /*
+
         bgGraphics.x = this.position.x
         bgGraphics.y = this.position.y
         bgGraphics.depth = -1
         this.bgGraphics = this.scene.add.existing(bgGraphics)
-        */
+
       })
     })
 
