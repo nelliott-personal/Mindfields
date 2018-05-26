@@ -75,7 +75,7 @@ export default class Player extends Entity {
           speed: { min: 0, max: 400 },
           angle: 0,
           scale: { start: 0.4, end: 0 },
-          quantity: 1,
+          quantity: 2,
           blendMode: 'ADD'
       });
 
@@ -163,11 +163,16 @@ export default class Player extends Entity {
         this.targeter.x += this.x - this.prev.x
         this.targeter.y += this.y - this.prev.y
 
-        this.particleEmitter.setPosition(this.x + (Math.random() * 10 - 5), this.y + (Math.random() * 10 - 5))
-        this.particleEmitter.setEmitterAngle(Phaser.Math.Angle.Normalize(this.body.angle) + 180 + Math.random() * 80 - 40)
+        this.particleEmitter.setPosition(this.body.position.x + Math.random() * 10 - 5, this.body.position.y + Math.random() * 10 - 5)
+
+        this.particleEmitter.setEmitterAngle((this.body.angle + Math.PI) * 57.2958)
         this.particleEmitter.setSpeed(this.body.speed / 2) * 5
         this.particleEmitter.setScale({ start: (this.body.speed * .08), end: 0 })
         this.particleEmitter.setLifespan(this.body.speed * (Math.random() * 50 + 50))
+        console.log(this)
+
+
+
 
 
         if (inputVector.length() == 0) {
