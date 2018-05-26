@@ -87,6 +87,7 @@ export default class Room extends Phaser.GameObjects.Graphics{
           let map = this.scene.make.tilemap({ data:mapData, tileWidth:s, tileHeight:s })
           let tileset = map.addTilesetImage('viscerared')
           let layer = map.createDynamicLayer(0, tileset, this.position.x, this.position.y)
+          layer.depth = -10
 
           //map.setCollision(96)
           this.scene.matter.world.convertTilemapLayer(layer, { isStatic:true })

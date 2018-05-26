@@ -25,6 +25,7 @@ export default class Player extends Entity {
         this.setFrictionAir(0)
         this.targetAngle = 0
         this.setBounce(0.5, 0.5)
+        this.depth = 1
 
         //this.body.maxAngular = 800
         //this.body.setFriction(10)
@@ -58,6 +59,27 @@ export default class Player extends Entity {
             }
         }, this);
 
+        this.createParticles()
+
+    }
+
+    createParticles(){
+      this.particles = this.scene.add.particles('flares');
+
+      this.particleEmitter = this.particles.createEmitter({
+          frame: 'blue',
+          x: 0,
+          y: 0,
+          alpha: { min: .3, max: .6 },
+          lifespan: 400,
+          speed: { min: 0, max: 400 },
+          angle: 0,
+          scale: { start: 0.4, end: 0 },
+          quantity: 1,
+          blendMode: 'ADD'
+      });
+
+      this.particleEmitter.depth = 0
     }
 
     changedRoom(e) {
@@ -128,7 +150,7 @@ export default class Player extends Entity {
                         break;
                 }
                 this.targetAngle = Phaser.Math.Angle.WrapDegrees(Phaser.Math.RadToDeg(inputVector.angle()))
-                
+
             }
 
         }
@@ -137,8 +159,16 @@ export default class Player extends Entity {
         this.applyForce({ x: inputVector.x / 1000, y: inputVector.y / 1000 })
         this.setVelocityX(Phaser.Math.Clamp((inputVector.x != 0) ? this.body.velocity.x: this.body.velocity.x * 0.98, -this.body.maxVelocity, this.body.maxVelocity))
         this.setVelocityY(Phaser.Math.Clamp((inputVector.y != 0) ? this.body.velocity.y : this.body.velocity.y * 0.98, -this.body.maxVelocity, this.body.maxVelocity))
+
         this.targeter.x += this.x - this.prev.x
         this.targeter.y += this.y - this.prev.y
+
+        this.particleEmitter.setPosition(this.x + (Math.random() * 10 - 5), this.y + (Math.random() * 10 - 5))
+        this.particleEmitter.setEmitterAngle(Phaser.Math.Angle.Normalize(this.body.angle) + 180 + Math.random() * 80 - 40)
+        this.particleEmitter.setSpeed(this.body.speed / 2) * 5
+        this.particleEmitter.setScale({ start: (this.body.speed * .08), end: 0 })
+        this.particleEmitter.setLifespan(this.body.speed * (Math.random() * 50 + 50))
+
 
         if (inputVector.length() == 0) {
             this.targetAngle = this.angle
@@ -176,6 +206,6 @@ export default class Player extends Entity {
             this.setAngularVelocity(this.body.angularVelocity *= 0.85)
         }
         this.setVelocityX(Phaser.Math.Clamp(this.body.velocity.x, -this.state.physics.maxVelocity, this.state.physics.maxVelocity))
-        this.setVelocityY(Phaser.Math.Clamp(this.body.velocity.y, -this.state.physics.maxVelocity, this.state.physics.maxVelocity))       
+        this.setVelocityY(Phaser.Math.Clamp(this.body.velocity.y, -this.state.physics.maxVelocity, this.state.physics.maxVelocity))
     }
 }

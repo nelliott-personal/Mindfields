@@ -22,6 +22,8 @@ export default class SpaceScene extends Phaser.Scene {
         this.load.image('bg4', 'assets/images/bg/bg4.png')
         this.load.image('bg5', 'assets/images/bg/bg5.png')
 
+        this.load.atlas('flares', 'assets/images/particles/flares.png', 'assets/images/particles/flares.json');
+
         this.load.image('viscerared', 'assets/images/bg/viscera_transparent.png')
         this.scene.launch('DevUI', { gameScene: this })
     }
@@ -72,7 +74,7 @@ export default class SpaceScene extends Phaser.Scene {
 
         this.bg = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, 'bg5')
         this.bg.setOrigin(0)
-        this.bg.depth = -2
+        this.bg.depth = -20
         this.bg.setScrollFactor(0)
 
     }
