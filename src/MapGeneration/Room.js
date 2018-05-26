@@ -42,10 +42,10 @@ export default class Room extends Phaser.GameObjects.Graphics{
           let rand = Math.random() * 2 - 1
 
           let mapData = []
-
-          for(let j = 0; j < h; j += s ){
+          let tileIndex = Math.floor(this.noiseVal * 500)
+          for(let j = 0; j < w - 2; j += s ){
             let row = []
-            for(let i = 0; i < h; i += s ){
+            for(let i = 0; i < h - 2; i += s ){
               noise.seed(this.state.seed)
               nV = Math.abs(noise.perlin2((x + i) / w / 2.6, (y + j) / h / 2.6))
               noise.seed(this.state.seed * 2.2)
@@ -77,15 +77,15 @@ export default class Room extends Phaser.GameObjects.Graphics{
               else{
                 //bgGraphics.fillStyle(Phaser.Display.Color.GetColor(nV * 100, nV * 300, Math.abs(nV * 200 - 200)))
                 //bgGraphics.fillRect(i, j, s, s)
-                row.push(96)
+                row.push(tileIndex)
               }
 
             }
             mapData.push(row)
           }
 
-          let map = this.scene.make.tilemap({ data:mapData, tileWidth:50, tileHeight:50 })
-          let tileset = map.addTilesetImage('viscerablue')
+          let map = this.scene.make.tilemap({ data:mapData, tileWidth:s, tileHeight:s })
+          let tileset = map.addTilesetImage('viscerared')
           let layer = map.createDynamicLayer(0, tileset, this.position.x, this.position.y)
 
           //map.setCollision(96)
@@ -128,14 +128,14 @@ export default class Room extends Phaser.GameObjects.Graphics{
     }
     */
     this.generateTiles().then(() =>{
-      let pxSize = 50
+      let pxSize = 32
       this.noiseGen(this.position.x, this.position.y, this.size.width, this.size.height, pxSize).then((bgGraphics) => {
-
+        /*
         bgGraphics.x = this.position.x
         bgGraphics.y = this.position.y
         bgGraphics.depth = -1
         this.bgGraphics = this.scene.add.existing(bgGraphics)
-
+        */
       })
     })
 
@@ -146,15 +146,15 @@ export default class Room extends Phaser.GameObjects.Graphics{
     return {
       x: 0,
       y: 0,
-      width: 2500,
-      height: 2500,
+      width: 2400,
+      height: 2400,
       lastActive: Date.now(),
       seed: 0,
       noiseVal:0
     }
   }
   get position(){
-    return { x: this.state.x * this.state.width, y: this.state.y * this.state.height }
+    return { x: this.state.x * this.size.width, y: this.state.y * this.size.height }
   }
   get coords(){
     return { x: this.state.x, y: this.state.y }

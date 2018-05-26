@@ -4,11 +4,29 @@
   <image source="viscera_blue_transparent.png" width="1600" height="600"/>
  </tileset>
  <tileset firstgid="385" source="Viscera_Blue_tileset.tsx"/>
- <layer name="Tile Layer 1" width="14" height="14">
-  <data encoding="base64" compression="zlib">
-   <chunk x="0" y="0" width="16" height="16">
-   eJyzYWBg8GdkYHAH4gaGUTAKRsFIAgBKyQFV
+ <tileset firstgid="1285" source="VisceraEdited.tsx"/>
+ <tileset firstgid="1321" source="VisceraEdited2.tsx"/>
+ <group name="Edited2">
+  <layer name="Tile Layer 7" width="14" height="14">
+   <data encoding="base64" compression="zlib">
+    <chunk x="0" y="0" width="16" height="16">
+   eJztzTEKgDAQRNE0HibaaBEtEkG0iN5qjubR/LAXyFY2GXgwxQ4bhxBGTEZ0RYTGZHYzFiO6smOf2K3YjOhKzv8Fu1Fx/uf2ONleRqft39Z9ZXfjMaKrOv739PyZD+MZEkU=
   </chunk>
-  </data>
- </layer>
+   </data>
+  </layer>
+  <layer name="Tile Layer 8" width="14" height="14">
+   <data encoding="base64" compression="zlib">
+    <chunk x="0" y="0" width="16" height="16">
+   eJyzZmVwYEAD1qwMB9DFRgF2AAwrbGINdHfIKBgFZAAAnOQCgQ==
+  </chunk>
+   </data>
+  </layer>
+  <layer name="Tile Layer 3" width="14" height="14">
+   <data encoding="base64" compression="zlib">
+    <chunk x="0" y="0" width="16" height="16">
+   eJyzZmVY0MLAwNAKxG1A3A7E1qwMCgxEAqD6BCxiD4jV34ZFfxsJ+lux6G8lQX8LFv0tJOgHhtUDoHoHoJ0OQHc7AP3uABTDMHMUjILBCADTHBFZ
+  </chunk>
+   </data>
+  </layer>
+ </group>
 </map>

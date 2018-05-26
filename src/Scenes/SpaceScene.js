@@ -21,8 +21,8 @@ export default class SpaceScene extends Phaser.Scene {
         this.load.image('bg3', 'assets/images/bg/bg3.png')
         this.load.image('bg4', 'assets/images/bg/bg4.png')
         this.load.image('bg5', 'assets/images/bg/bg5.png')
-        this.load.tilemapTiledJSON('viscerabluemap', 'assets/images/bg/Viscera_Map_50x50.json')
-        this.load.image('viscerablue', 'assets/images/bg/viscera_blue_transparent.png')
+
+        this.load.image('viscerared', 'assets/images/bg/viscera_transparent.png')
         this.scene.launch('DevUI', { gameScene: this })
     }
 
