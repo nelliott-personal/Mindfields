@@ -65,7 +65,6 @@ export default class Player extends Entity {
 
     createParticles(){
       this.particles = this.scene.add.particles('flares');
-
       this.particleEmitter = this.particles.createEmitter({
           frame: 'blue',
           x: 0,
@@ -80,6 +79,7 @@ export default class Player extends Entity {
       });
 
       this.particleEmitter.depth = 0
+      this.particleEmitter.startFollow(this)
     }
 
     changedRoom(e) {
@@ -133,6 +133,7 @@ export default class Player extends Entity {
         //let xAcc = 0
         //let yAcc = 0
         //let force = new Phaser.Math.Vector2()
+
         for (var input in this.inputstate) {
             if (this.inputstate[input].isDown) {
                 switch (input) {
@@ -162,18 +163,6 @@ export default class Player extends Entity {
 
         this.targeter.x += this.x - this.prev.x
         this.targeter.y += this.y - this.prev.y
-
-        this.particleEmitter.setPosition(this.body.position.x + Math.random() * 10 - 5, this.body.position.y + Math.random() * 10 - 5)
-
-        this.particleEmitter.setEmitterAngle((this.body.angle + Math.PI) * 57.2958)
-        this.particleEmitter.setSpeed(this.body.speed / 2) * 5
-        this.particleEmitter.setScale({ start: (this.body.speed * .08), end: 0 })
-        this.particleEmitter.setLifespan(this.body.speed * (Math.random() * 50 + 50))
-        console.log(this)
-
-
-
-
 
         if (inputVector.length() == 0) {
             this.targetAngle = this.angle
@@ -212,5 +201,25 @@ export default class Player extends Entity {
         }
         this.setVelocityX(Phaser.Math.Clamp(this.body.velocity.x, -this.state.physics.maxVelocity, this.state.physics.maxVelocity))
         this.setVelocityY(Phaser.Math.Clamp(this.body.velocity.y, -this.state.physics.maxVelocity, this.state.physics.maxVelocity))
+
+        this.updateParticles()
+    }
+
+    updateParticles() {
+      let frames = [ 'red', 'pink', 'purple', 'blue', 'teal' ]
+      let maxSpeed = 7
+
+
+      this.particleEmitter.setEmitterAngle(Phaser.Math.RadToDeg(this.body.angle + Math.PI))
+      this.particleEmitter.setSpeed(this.body.speed / 2) * 5 + 20
+      this.particleEmitter.setScale({ start: (this.body.speed * .04) + .04, end: 0 })
+      this.particleEmitter.setLifespan((Math.random() * 300 + 300))
+      this.particleEmitter.setFrame(frames[Math.floor((Math.floor(this.body.speed) / maxSpeed) * frames.length) ])
+
+      let newPoint = Phaser.Math.Rotate({x: 0, y: 40}, this.body.angle + Math.PI / 2)
+      this.particleEmitter.followOffset = {x: newPoint.x + Math.random() * 10 - 5, y: newPoint.y + Math.random() * 10 - 5}
+
+
+
     }
 }
