@@ -42,7 +42,7 @@ export default class Room extends Phaser.GameObjects.Graphics{
           let rand = Math.random() * 2 - 1
 
           let mapData = []
-          let tileIndex = Math.floor(this.noiseVal * 500)
+          let tileIndex = Math.floor(this.noiseVal * 30)
           for(let j = 0; j < w - 2; j += s ){
             let row = []
             for(let i = 0; i < h - 2; i += s ){

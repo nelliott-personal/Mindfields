@@ -2,7 +2,7 @@
 <map version="1.0" tiledversion="2018.04.18" orientation="orthogonal" renderorder="right-down" width="14" height="14" tilewidth="32" tileheight="32" infinite="1" nextobjectid="1">
  <tileset firstgid="1" source="black.tsx"/>
  <tileset firstgid="37" source="Viscera_Red_tileset.tsx"/>
- <layer name="Tile Layer 1" width="14" height="14" locked="1">
+ <layer name="Tile Layer 1" width="14" height="14" visible="0" locked="1">
   <data encoding="base64" compression="zlib">
    <chunk x="-16" y="-16" width="16" height="16">
    eJztyDkSgCAQAEFADpVD8f+PdYIl3oB0p6qTcc6yrN28CDgQkZCVvyrixIUbFU35qy4GHryY+JT/A2VcAYE=
@@ -33,10 +33,10 @@
    eJzt0c0NgkAQBeCHe7WIOduDRkrABkQtQEtYf+LFeBAtYHvQs1qHd0jswseOEBLhojFe3OQLszM8IAvwX79cXQOZKsfaVWdbQCq1q9u3mbm1vLyWHs2M3hcFkKVykXrZf/r9QwNLiGlEY5oY3/e9WOe2Kb/jjJDQng4UGvSLXqLzxvy31ip4L7cBrjxXDCjlGR9proS1pKrs5//xzFzuoiz/j39/xvmJFkpYS6bK/po6zJG9M/Nk+Vwb6lkW19r6AW2SRjo=
   </chunk>
    <chunk x="16" y="-16" width="16" height="16">
-   eJxjYBgFgwH0MjAs2AqktwHxdhL0NTMyKADxgkAgfg7kvwDil0D8ihaOHAU0Bc+BcbgViOWBcRoIiVcFIF8BKK6AS96RmYEBiBtA9Aug3DYgVgCKBwFxCxAD+QovoPqxyQMAVa0fkA==
+   eJztkcEJgDAQBC9YiFeKlqAVCfrUHtJE4jfdGK3CARV86ENB8JGF4bJZ7nGsSNIfNIhYx/QwPthrjSjYCiZ8hBkWyI0UuhF4hzKTBuSYvfngkKTXmujQAV1ptfWqeOVf7/Jzn5HMA31rDR3gNe77V/kK84Ikrw==
   </chunk>
    <chunk x="32" y="-16" width="16" height="16">
-   eJxjYBgFo2AUDBTYysig8ByIydW/Daj3BRAfZ2RoOAnERxkZGI4BMZBPFAAAT60Ipg==
+   eJxjYBgFQxn0MjIw9EFwA5Dd0APEA+2mUUA82MrIoPAciMnVvw2o9wUQHwfG+0kgPgpMC8eAGMgnCgAAw0MM7Q==
   </chunk>
    <chunk x="-16" y="0" width="16" height="16">
    eJxjYBgF9AJBjAwN8owMDEDcAGSTpb8bSAMx2fpbIJiBHP1vgfg9BDcA2Q2km8DAEAvBZOkFAZj/ydU/ClABACMVDts=
