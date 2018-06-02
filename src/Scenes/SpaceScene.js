@@ -61,6 +61,15 @@ export default class SpaceScene extends Phaser.Scene {
             })
         )
 
+        this.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
+            if (bodyA.gameObject instanceof Entity) {
+                bodyA.gameObject.onCollision(event, bodyB)
+            }
+            if (bodyB.gameObject instanceof Entity) {
+                bodyB.gameObject.onCollision(event, bodyA)
+            }
+        })
+
         this.P = this.Entities.getChildren()[0]
         //this.physics.add.collider(this.P, this.Entities.getChildren()[1])
         this.input.mouse.capture = true
