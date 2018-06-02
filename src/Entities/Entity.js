@@ -36,6 +36,28 @@ export default class Entity extends Phaser.Physics.Matter.Sprite {
     fireEvent(e) {
         this.scene.sys.events.emit(e, this)
     }
+    onDeath() {
+        this.fireEvent('removeEntity')
+        this.destroy()
+        /*
+        var me = this
+        var e = this.scene.Entities.getChildren().find(function (e) {
+            return e = me
+        })
+        this.scene.Entities.killAndHide(e)
+        */
+    }
+    onCollision(e, b) {
+        ///what are we colliding with?
+        console.log(b)
+        ///maybe a static library of helper functions for common behaviour?        
+        var vel = new Phaser.Math.Vector2(b.velocity.x - this.body.velocity.x, b.velocity.y - this.body.velocity.y)
+        if (vel.length() >= 3.5) {
+            if (this.health) {
+                this.health.changeHealth(vel.length() * -2)
+            }
+        }
+    }
     save() {
         //localforage.save()
     }

@@ -47,12 +47,12 @@ export default class Player extends Entity {
             space: config.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
         }
 
-        this.health = new Health(config)
+        this.health = new Health(config, this)
         console.log('Player Init')
 
         // Move reticle upon locked pointer move
         this.scene.input.on('pointermove', function (pointer) {
-            if (this.scene.input.mouse.locked) {
+            if (this.active && this.scene.input.mouse.locked) {
                 // Move reticle with mouse
                 this.targeter.x += pointer.movementX;
                 this.targeter.y += pointer.movementY;
@@ -126,6 +126,15 @@ export default class Player extends Entity {
             }],
             shipID: 1 // what ship you're in
         }
+    }
+
+    onDeath() {
+        this.fireEvent('removeEntity')
+        this.scene.cameras.main.fade(2000);
+        this.destroy()
+        this.particleEmitter.pause()
+        this.particleEmitter.setVisible(false)
+        this.targeter.setVisible(false)
     }
 
     update(time, delta) {

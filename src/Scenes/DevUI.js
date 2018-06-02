@@ -9,6 +9,7 @@ export default class DevUI extends Phaser.Scene {
     create() {
         this.gameScene = this.sys.settings.data.gameScene
         this.gameScene.sys.events.on('addEntity', this.onAddEntity, this)
+        this.gameScene.sys.events.on('removeEntity', this.onRemoveEntity, this)
         this.fps = this.add.text(10, 10, 'FPS: 0', { font: '12px Arial', fill: '#FFFFFF' }).setScrollFactor(1, 1)
         this.EntityHPs = this.add.group(this)
     }
@@ -29,12 +30,19 @@ export default class DevUI extends Phaser.Scene {
         )
         newHP.entity = entity
         newHP.update = function () {
-            if (entity) {
+            if (entity.active) {
                 let scrollFactor = new Phaser.Math.Vector2(entity.scene.cameras.main.scrollX /** entity.scene.cameras.main.zoom*/, entity.scene.cameras.main.scrollY /** entity.scene.cameras.main.zoom*/)
                 this.setText('Health: ' + entity.health.currentHealth)
                 this.setPosition(entity.x + (-scrollFactor.x), entity.y + (-scrollFactor.y) - Phaser.Math.Clamp(48 * entity.scene.cameras.main.zoom, 0, 64))
                 this.setFontSize(Phaser.Math.Clamp(12 * entity.scene.cameras.main.zoom, 6, 16))
             }
         }
+    }
+
+    onRemoveEntity(entity) {
+        var oldHP = this.EntityHPs.getChildren().find(function (e) {
+            return e.entity = entity
+        })
+        this.EntityHPs.killAndHide(oldHP)
     }
 }

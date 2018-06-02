@@ -14,6 +14,7 @@ export default class DavidsTestKitchen extends Phaser.Scene {
         this.load.image('ship', 'assets/images/ship.png')
         this.load.image('targeter', 'assets/images/crosshair.png')
         this.load.image('spacerock', 'assets/images/spacerock.png')
+        this.load.atlas('flares', 'assets/images/particles/flares.png', 'assets/images/particles/flares.json');
         this.scene.launch('DevUI', { gameScene: this })
     }
 
@@ -46,6 +47,15 @@ export default class DavidsTestKitchen extends Phaser.Scene {
             })
         )
 
+        this.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
+            if (bodyA.gameObject instanceof Entity) {
+                bodyA.gameObject.onCollision(event, bodyB)
+            }
+            if (bodyB.gameObject instanceof Entity) {
+                bodyB.gameObject.onCollision(event, bodyA)
+            }
+        })
+
         this.setupCamera()
         this.debugText = this.add.container(this.P.x, this.P.y + 48)
         //let c1 = this.add.text(10, 22, 'Current Angle: 0', { font: '12px Arial', fill: '#FFFFFF', align: 'left' })
@@ -64,6 +74,12 @@ export default class DavidsTestKitchen extends Phaser.Scene {
     setupCamera() {
         this.cameras.main.setScroll(this.P.x - this.cameras.main.width / 2, this.P.y - this.cameras.main.height / 2)
         //this.cameras.main.startFollow(this.P)
+
+        this.cameras.main.on('camerafadeoutcomplete', function () {
+
+            this.scene.restart();
+
+        }, this);
     }
 
     update(time, delta) {

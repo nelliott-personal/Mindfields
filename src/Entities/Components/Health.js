@@ -2,9 +2,10 @@ import Helpers from '../../Utils/Helpers'
 
 export default class Health extends Phaser.GameObjects.GameObject {
 
-    constructor(config) {
+    constructor(config, entity) {
         super(config.scene, "Entity_Component")
-        this.state = Helpers.setState(config.state, this.defaultState)        
+        this.state = Helpers.setState(config.state, this.defaultState)
+        this.entity = entity
     }
 
     get defaultState() {
@@ -17,8 +18,11 @@ export default class Health extends Phaser.GameObjects.GameObject {
     }
 
     changeHealth(h) {
+        h = Math.ceil(h)
         if (this.currentHealth + h <= 0) {
             this.emit('you-dead')
+            this.entity.onDeath()
+            //this.scene.remo
         }
         this.currentHealth += h
 
