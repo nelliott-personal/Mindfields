@@ -10,6 +10,7 @@ export default class DevUI extends Phaser.Scene {
         this.gameScene = this.sys.settings.data.gameScene
         this.gameScene.sys.events.on('addEntity', this.onAddEntity, this)
         this.gameScene.sys.events.on('removeEntity', this.onRemoveEntity, this)
+        this.gameScene.sys.events.on('gameOver', this.onGameOver, this) 
         this.fps = this.add.text(10, 10, 'FPS: 0', { font: '12px Arial', fill: '#FFFFFF' }).setScrollFactor(1, 1)
         this.EntityHPs = this.add.group(this)
     }
@@ -43,6 +44,10 @@ export default class DevUI extends Phaser.Scene {
         var oldHP = this.EntityHPs.getChildren().find(function (e) {
             return e.entity = entity
         })
-        this.EntityHPs.killAndHide(oldHP)
+        this.EntityHPs.remove(oldHP, true, true)
+    }
+
+    onGameOver(e) {
+        this.EntityHPs.clear(true, true)
     }
 }
