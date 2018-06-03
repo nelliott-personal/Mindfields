@@ -6,13 +6,13 @@ export default class Health extends Phaser.GameObjects.GameObject {
         super(config.scene, "Entity_Component")
         this.state = Helpers.setState(config.state, this.defaultState)
         this.entity = entity
-        this.state.currentHealth = this.state.maxHealth
+        if (this.state.currentHealth <= 0) { this.state.currentHealth = this.state.maxHealth }
     }
 
     get defaultState() {
         return {
             maxHealth: 100,
-            //currentHealth: 100 //default currentHealth should be max health! wat do
+            currentHealth: 0 //default currentHealth should be max health! wat do
         }
     }
 
