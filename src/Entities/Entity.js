@@ -49,7 +49,8 @@ export default class Entity extends Phaser.Physics.Matter.Sprite {
     }
     onCollision(e, b) {
         ///what are we colliding with?
-        //console.log(b)
+        if (!b.gameObject instanceof Entity)
+            return
         ///maybe a static library of helper functions for common behaviour?        
         var vel = new Phaser.Math.Vector2(b.velocity.x - this.body.velocity.x, b.velocity.y - this.body.velocity.y)
         if (vel.length() >= 3.5) {

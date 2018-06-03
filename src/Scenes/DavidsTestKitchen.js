@@ -46,18 +46,14 @@ export default class DavidsTestKitchen extends Phaser.Scene {
                 x: 300,
                 y: 50,
                 state: {
-                    currentHealth: 10000
+                    maxHealth: 10000
                 }
             })
         )
 
         this.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
-            if (bodyA.gameObject instanceof Entity) {
-                bodyA.gameObject.onCollision(event, bodyB)
-            }
-            if (bodyB.gameObject instanceof Entity) {
-                bodyB.gameObject.onCollision(event, bodyA)
-            }
+            bodyA.gameObject.onCollision(event, bodyB)
+            bodyB.gameObject.onCollision(event, bodyA)
         })
 
         this.setupCamera()

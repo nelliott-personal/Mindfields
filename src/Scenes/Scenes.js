@@ -5,7 +5,7 @@ import MainMenu from './MainMenu'
 import PauseMenu from './PauseMenu'
 
 let scenes = [
-    DavidsTestKitchen,
+    //DavidsTestKitchen,
     SpaceScene,
     DevUI,
     MainMenu,
