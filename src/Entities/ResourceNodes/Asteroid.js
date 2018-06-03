@@ -20,8 +20,12 @@ export default class Asteroid extends Entity{
     this.setFrictionAir(0)
     this.setAngularVelocity(0.01)
 
-    this.health = new Health(this)
+    this.health = new Health(config, this)
   }
+
+    onDeath() {
+        this.destroy()
+    }
 
   changedRoom(e){
     console.log('Asteroid changed room')

@@ -39,6 +39,22 @@ export default class DavidsTestKitchen extends Phaser.Scene {
                 targeter: this.add.image(50, 50, 'targeter')
             })
         )
+        for (var i = 0; i < 64; i++) {
+            var x = Phaser.Math.Between(-750, 800);
+            var y = Phaser.Math.Between(-750, 800);
+            this.Entities.add(
+                new Asteroid({
+                    scene: this,
+                    key: 'spacerock',
+                    x: x,
+                    y: y,
+                    state: {
+                        maxHealth: 10000
+                    }
+                }).setVelocity(Phaser.Math.Between(-1, 1.5), Phaser.Math.Between(-1, 1.5))
+                )
+        }
+        /*
         this.Entities.add(
             this.A = new Asteroid({
                 scene: this,
@@ -49,7 +65,7 @@ export default class DavidsTestKitchen extends Phaser.Scene {
                     maxHealth: 10000
                 }
             })
-        )
+        )*/
 
         this.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
             bodyA.gameObject.onCollision(event, bodyB)
@@ -67,7 +83,7 @@ export default class DavidsTestKitchen extends Phaser.Scene {
 
     setupCamera() {
         this.cameras.main.setScroll(this.P.x - this.cameras.main.width / 2, this.P.y - this.cameras.main.height / 2)
-        //this.cameras.main.startFollow(this.P)
+        this.cameras.main.startFollow(this.P)
 
         this.cameras.main.on('camerafadeoutcomplete', function () {
 
@@ -97,6 +113,7 @@ export default class DavidsTestKitchen extends Phaser.Scene {
     }
 
     onGameOver(e) {
+        this.cameras.main.stopFollow(this.P)
         this.cameras.main.fade(2000);
     }
 }

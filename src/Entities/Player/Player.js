@@ -3,6 +3,7 @@ import Helpers from '../../Utils/Helpers'
 import Entity from '../Entity'
 import Ship from '../../Ships/Ship'
 import Health from '../Components/Health'
+import Energy from '../Components/Energy'
 
 export default class Player extends Entity {
 
@@ -26,6 +27,9 @@ export default class Player extends Entity {
         this.targetAngle = 0
         this.setBounce(0.5, 0.5)
         this.depth = 1
+        this.boostCost = 100
+        this.boostReady = false
+        this.boostPower = 1.5
 
         //this.body.maxAngular = 800
         //this.body.setFriction(10)
@@ -46,8 +50,9 @@ export default class Player extends Entity {
             right: config.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
             space: config.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
         }
-
+        
         this.health = new Health(config, this)
+        this.energy = new Energy(config, this)
         console.log('Player Init')
 
         // Move reticle upon locked pointer move
@@ -124,6 +129,8 @@ export default class Player extends Entity {
                     // default ship
                 }
             }],
+            maxHealth: 100,
+            maxEnergy: 1500,            
             shipID: 1 // what ship you're in
         }
     }
@@ -131,6 +138,7 @@ export default class Player extends Entity {
     onDeath() {
         this.fireEvent('gameOver')
         this.fireEvent('removeEntity')        
+        //this.scene.Entities.killAndHide(this)
         this.destroy()
         this.particleEmitter.pause()
         this.particleEmitter.setVisible(false)
@@ -138,10 +146,19 @@ export default class Player extends Entity {
     }
 
     update(time, delta) {
+        if (this.energy) { this.energy.update(time, delta) }
         let inputVector = new Phaser.Math.Vector2()
-        //let xAcc = 0
-        //let yAcc = 0
-        //let force = new Phaser.Math.Vector2()
+        let turnDirection = Phaser.Math.Angle.ShortestBetween(this.angle, this.targetAngle)
+        let turnAngle = Phaser.Math.Difference(this.angle, this.targetAngle)
+        let turnRate = 0.01
+        let boost = false;
+        let boostVector = new Phaser.Math.Vector2()
+
+        if (Phaser.Input.Keyboard.JustDown(this.inputstate.space)) {
+            if (this.energy.currentEnergy > this.boostCost) {
+                this.boostReady = true;
+            }
+        }
 
         for (var input in this.inputstate) {
             if (this.inputstate[input].isDown) {
@@ -158,17 +175,28 @@ export default class Player extends Entity {
                     case 'right':
                         inputVector.x += this.acc
                         break;
-                }
-                this.targetAngle = Phaser.Math.Angle.WrapDegrees(Phaser.Math.RadToDeg(inputVector.angle()))
+                    case 'space':
+                        if (this.boostReady && turnAngle <= 45) {
+                            boostVector.x = (Math.cos(this.rotation) / 10) * this.boostPower 
+                            boostVector.y = (Math.sin(this.rotation) / 10) * this.boostPower
+                            this.energy.currentEnergy -= Math.ceil(this.boostCost / delta)
+                        }
 
+                        if (this.energy.currentEnergy <= 1) {
+                            this.boostReady = false
+                        }
+                        break;
+                }               
+                this.targetAngle = Phaser.Math.Angle.WrapDegrees(Phaser.Math.RadToDeg(inputVector.angle()))
             }
 
         }
+
         this.prev = new Phaser.Math.Vector2(this.state.x, this.state.y)
+        this.applyForce({ x: boostVector.x + inputVector.x / 1000, y: boostVector.y + inputVector.y / 1000 })
+        this.setVelocityX(Phaser.Math.Clamp((inputVector.x != 0) ? this.body.velocity.x: this.body.velocity.x * 0.99, -this.body.maxVelocity, this.body.maxVelocity))
+        this.setVelocityY(Phaser.Math.Clamp((inputVector.y != 0) ? this.body.velocity.y: this.body.velocity.y * 0.99, -this.body.maxVelocity, this.body.maxVelocity))
         this.updatePosition()
-        this.applyForce({ x: inputVector.x / 1000, y: inputVector.y / 1000 })
-        this.setVelocityX(Phaser.Math.Clamp((inputVector.x != 0) ? this.body.velocity.x: this.body.velocity.x * 0.98, -this.body.maxVelocity, this.body.maxVelocity))
-        this.setVelocityY(Phaser.Math.Clamp((inputVector.y != 0) ? this.body.velocity.y : this.body.velocity.y * 0.98, -this.body.maxVelocity, this.body.maxVelocity))
 
         this.targeter.x += this.x - this.prev.x
         this.targeter.y += this.y - this.prev.y
@@ -177,13 +205,11 @@ export default class Player extends Entity {
             this.targetAngle = this.angle
         }
 
-        let turnDirection = Phaser.Math.Angle.ShortestBetween(this.angle, this.targetAngle)
-        let turnAngle = Phaser.Math.Difference(this.angle, this.targetAngle)
         if (this.body.angularVelocity != 0 || turnAngle > 1) {
             if (turnAngle > 90) {
                 (turnDirection > 0 ?
-                    this.setAngularVelocity(this.body.angularVelocity += 0.015) :
-                    this.setAngularVelocity(this.body.angularVelocity -= 0.015)
+                    this.setAngularVelocity(this.body.angularVelocity += turnRate * 1.5) :
+                    this.setAngularVelocity(this.body.angularVelocity -= turnRate * 1.5)
                 )
             }
             else {
@@ -191,26 +217,26 @@ export default class Player extends Entity {
             }
 
             if (turnAngle <= 2) {
-                this.angle = this.targetAngle
                 this.setAngularVelocity(0)
             }
             else if (turnAngle <= 10) {
+                this.angle = this.targetAngle
                 this.setAngularVelocity(this.body.angularVelocity *= 0.75)
             }
             else {
                 (turnDirection > 0 ?
-                    this.setAngularVelocity(this.body.angularVelocity += 0.01) :
-                    this.setAngularVelocity(this.body.angularVelocity -= 0.01)
+                    this.setAngularVelocity(this.body.angularVelocity += turnRate) :
+                    this.setAngularVelocity(this.body.angularVelocity -= turnRate)
                 )
             }
 
         }
+
         if (Math.abs(this.body.angularVelocity) > this.maxTurn) {
             this.setAngularVelocity(this.body.angularVelocity *= 0.85)
         }
         this.setVelocityX(Phaser.Math.Clamp(this.body.velocity.x, -this.state.physics.maxVelocity, this.state.physics.maxVelocity))
         this.setVelocityY(Phaser.Math.Clamp(this.body.velocity.y, -this.state.physics.maxVelocity, this.state.physics.maxVelocity))
-
         this.updateParticles()
     }
 
