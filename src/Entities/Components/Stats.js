@@ -1,7 +1,8 @@
-export default const STATS = [
+const STATS = [
 
   'MAX_HEALTH',
   'MAX_SHIELDS',
+  'MAX_POWER',
   'ARMOR', // ballistic weapon resistance
   'PLATING', // energy weapon resistance
   'TOTAL_ENERGY',
@@ -12,3 +13,5 @@ export default const STATS = [
   'BOOST_ACCELERATION'
 
 ]
+
+export STATS

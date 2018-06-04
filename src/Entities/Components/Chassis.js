@@ -6,6 +6,8 @@
   slots:[
     {
 
+      type:'ENGINE'
+
     }
   ]
 
