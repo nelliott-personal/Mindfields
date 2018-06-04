@@ -25,11 +25,14 @@ export default class SpaceScene extends Phaser.Scene {
         this.load.atlas('flares', 'assets/images/particles/flares.png', 'assets/images/particles/flares.json');
 
         this.load.image('viscerared', 'assets/images/bg/viscera_transparent.png')
-        this.scene.launch('DevUI', { gameScene: this })
+        if (!this.scene.isActive('DevUI')) {
+            this.scene.launch('DevUI', { gameScene: this })
+        }
     }
 
     create() {
         console.log('Saved State: ', SaveState.state)
+        this.events.on('gameOver', this.onGameOver, this) 
         this.state = SaveState.state
         this.isStopped = false;
         this.CM = new ChunkManager({
@@ -51,15 +54,21 @@ export default class SpaceScene extends Phaser.Scene {
                 targeter: this.add.image(1250, 1250, 'targeter')
             })
         )
-        this.Entities.add(
-            new Asteroid({
-                scene: this,
-                key: 'spacerock',
-                x: 300,
-                y: 50,
-                state: {}
-            })
-        )
+        for (var i = 0; i < 8; i++) {
+            var x = Phaser.Math.Between(1250 - 550, 1250+600);
+            var y = Phaser.Math.Between(1250 - 550, 1250+600);
+            this.Entities.add(
+                new Asteroid({
+                    scene: this,
+                    key: 'spacerock',
+                    x: x,
+                    y: y,
+                    state: {
+                        maxHealth: 10000
+                    }
+                }).setVelocity(Phaser.Math.Between(-1, 1.5), Phaser.Math.Between(-1, 1.5))
+            )
+        }
 
         this.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
             if (bodyA.gameObject instanceof Entity) {
@@ -90,6 +99,11 @@ export default class SpaceScene extends Phaser.Scene {
 
     setupCamera() {
         this.cameras.main.startFollow(this.P)
+        this.cameras.main.on('camerafadeoutcomplete', function () {
+
+            this.scene.restart();
+
+        }, this);
     }
 
     setupKeys() {
@@ -121,7 +135,9 @@ export default class SpaceScene extends Phaser.Scene {
     }
 
     update(time, delta) {
-        this.bg.setTilePosition(this.P.x * .25, this.P.y * .25)
+        if (this.P.isAc) {
+            this.bg.setTilePosition(this.P.x * .25, this.P.y * .25)
+        }
 
         for (let gobj of this.Entities.getChildren()) {
             gobj.update(time, delta)
@@ -138,4 +154,8 @@ export default class SpaceScene extends Phaser.Scene {
         }
     }
 
+    onGameOver(e) {
+        this.cameras.main.stopFollow(this.P)
+        this.cameras.main.fade(2000);
+    }
 }

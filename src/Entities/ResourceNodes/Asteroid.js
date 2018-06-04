@@ -6,22 +6,26 @@ export default class Asteroid extends Entity{
 
   constructor(config){
     super(config)
-      this.body.allowRotation = true
-      this.scaleX = 1
-      this.scaleY = 1
+    this.body.allowRotation = true
+    this.scaleX = 1
+    this.scaleY = 1
     this.setBody({
         type: 'polygon',
         sides:8,
         radius: 24
     })
-      this.setMass(10000)
-      //this.setDensity(1000)
-      this.setBounce(0.5, 0.5)
-      this.setFrictionAir(0)
-      this.setAngularVelocity(0.01)
+    this.setMass(10000)
+    //this.setDensity(1000)
+    this.setBounce(0.5, 0.5)
+    this.setFrictionAir(0)
+    this.setAngularVelocity(0.01)
 
-      this.health = new Health(this)
+    this.health = new Health(config, this)
   }
+
+    onDeath() {
+        this.destroy()
+    }
 
   changedRoom(e){
     console.log('Asteroid changed room')
