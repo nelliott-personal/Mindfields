@@ -25,4 +25,8 @@ export default class SaveState {
     return localforage.setItem(Room.name, Room.state)
   }
 
+  static saveControls(controls) {
+    return localforage.setItem('controls', controls)
+  }
+
 }

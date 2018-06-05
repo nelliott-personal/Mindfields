@@ -4,6 +4,7 @@ import Entity from '../Entity'
 import Ship from '../../Ships/Ship'
 import Health from '../Components/Health'
 import Energy from '../Components/Energy'
+import InputMap from '../../UserInput/InputMap'
 
 export default class Player extends Entity {
 
@@ -42,15 +43,15 @@ export default class Player extends Entity {
         this.targeter.scaleY = .5
         this.targeter.depth = 10
         this.targeter.setAlpha(0.65)
-
+        console.log(InputMap)
         this.inputstate = {
-            up: config.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
-            down: config.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
-            left: config.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
-            right: config.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
-            space: config.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+            up: config.scene.input.keyboard.addKey(InputMap.getControl('UP')),
+            down: config.scene.input.keyboard.addKey(InputMap.getControl('DOWN')),
+            left: config.scene.input.keyboard.addKey(InputMap.getControl('LEFT')),
+            right: config.scene.input.keyboard.addKey(InputMap.getControl('RIGHT')),
+            boost: config.scene.input.keyboard.addKey(InputMap.getControl('BOOST'))
         }
-        
+
         this.health = new Health(config, this)
         this.energy = new Energy(config, this)
         console.log('Player Init')
@@ -130,7 +131,7 @@ export default class Player extends Entity {
                 }
             }],
             maxHealth: 100,
-            maxEnergy: 1500,            
+            maxEnergy: 1500,
             shipID: 1 // what ship you're in
         }
     }
@@ -153,7 +154,7 @@ export default class Player extends Entity {
         let boost = false;
         let boostVector = new Phaser.Math.Vector2()
 
-        if (Phaser.Input.Keyboard.JustDown(this.inputstate.space)) {
+        if (this.inputstate.boost.isDown) {
             if (this.energy.currentEnergy > this.boostCost) {
                 this.boostReady = true;
             }
@@ -174,9 +175,9 @@ export default class Player extends Entity {
                     case 'right':
                         inputVector.x += this.acc
                         break;
-                    case 'space':
+                    case 'boost':
                         if (this.boostReady && turnAngle <= 45) {
-                            boostVector.x = (Math.cos(this.rotation) / 10) * this.boostPower 
+                            boostVector.x = (Math.cos(this.rotation) / 10) * this.boostPower
                             boostVector.y = (Math.sin(this.rotation) / 10) * this.boostPower
                             this.energy.currentEnergy -= Math.ceil(this.boostCost / delta)
                         }
@@ -185,7 +186,7 @@ export default class Player extends Entity {
                             this.boostReady = false
                         }
                         break;
-                }               
+                }
                 this.targetAngle = Phaser.Math.Angle.WrapDegrees(Phaser.Math.RadToDeg(inputVector.angle()))
             }
 

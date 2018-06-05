@@ -5,11 +5,14 @@ import Asteroid from '../Entities/ResourceNodes/Asteroid'
 import Entity from '../Entities/Entity'
 import SaveState from '../Utils/SaveState'
 import Helpers from '../Utils/Helpers'
+import InputMap from '../UserInput/InputMap'
 
 export default class SpaceScene extends Phaser.Scene {
 
     constructor() {
-        super({ key: 'SpaceScene' })
+        super({
+            key: 'SpaceScene'
+        })
     }
 
     preload() {
@@ -26,13 +29,15 @@ export default class SpaceScene extends Phaser.Scene {
 
         this.load.image('viscerared', 'assets/images/bg/viscera_transparent.png')
         if (!this.scene.isActive('DevUI')) {
-            this.scene.launch('DevUI', { gameScene: this })
+            this.scene.launch('DevUI', {
+                gameScene: this
+            })
         }
     }
 
     create() {
         console.log('Saved State: ', SaveState.state)
-        this.events.on('gameOver', this.onGameOver, this) 
+        this.events.on('gameOver', this.onGameOver, this)
         this.state = SaveState.state
         this.isStopped = false;
         this.CM = new ChunkManager({
@@ -55,8 +60,8 @@ export default class SpaceScene extends Phaser.Scene {
             })
         )
         for (var i = 0; i < 8; i++) {
-            var x = Phaser.Math.Between(1250 - 550, 1250+600);
-            var y = Phaser.Math.Between(1250 - 550, 1250+600);
+            var x = Phaser.Math.Between(1250 - 550, 1250 + 600);
+            var y = Phaser.Math.Between(1250 - 550, 1250 + 600);
             this.Entities.add(
                 new Asteroid({
                     scene: this,
@@ -70,7 +75,7 @@ export default class SpaceScene extends Phaser.Scene {
             )
         }
 
-        this.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
+        this.matter.world.on('collisionstart', function(event, bodyA, bodyB) {
             if (bodyA.gameObject instanceof Entity) {
                 bodyA.gameObject.onCollision(event, bodyB)
             }
@@ -99,7 +104,7 @@ export default class SpaceScene extends Phaser.Scene {
 
     setupCamera() {
         this.cameras.main.startFollow(this.P)
-        this.cameras.main.on('camerafadeoutcomplete', function () {
+        this.cameras.main.on('camerafadeoutcomplete', function() {
 
             this.scene.restart();
 
@@ -113,7 +118,7 @@ export default class SpaceScene extends Phaser.Scene {
         }
 
         addEventListener('keydown', (e) => {
-            if (e.keyCode == 9) {
+            if (e.keyCode == InputMap.getControl('PAUSE')) {
                 e.preventDefault()
                 if (this.isPaused) {
                     this.isPaused = false
@@ -126,12 +131,11 @@ export default class SpaceScene extends Phaser.Scene {
                     this.scene.get('PauseMenu').open()
                 }
             }
-        })
-        addEventListener('keypress', function (e) {
-            if (e.key.toLowerCase() == 'q') {
+            else if (e.keyCode == InputMap.getControl('FULLSCREEN')) {
                 window['game']['canvas'][game.device.fullscreen.request]();
             }
         })
+
     }
 
     update(time, delta) {
