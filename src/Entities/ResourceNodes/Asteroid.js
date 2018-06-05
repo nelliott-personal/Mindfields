@@ -16,7 +16,7 @@ export default class Asteroid extends Entity{
     })
     this.setMass(10000)
     //this.setDensity(1000)
-    this.setBounce(0.5, 0.5)
+    this.setBounce(1, 1)
     this.setFrictionAir(0)
     this.setAngularVelocity(0.01)
 
@@ -24,6 +24,7 @@ export default class Asteroid extends Entity{
   }
 
     onDeath() {
+        this.fireEvent('removeEntity')
         this.destroy()
     }
 

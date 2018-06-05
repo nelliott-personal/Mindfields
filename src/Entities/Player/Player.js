@@ -137,8 +137,7 @@ export default class Player extends Entity {
 
     onDeath() {
         this.fireEvent('gameOver')
-        this.fireEvent('removeEntity')        
-        //this.scene.Entities.killAndHide(this)
+        this.fireEvent('removeEntity')
         this.destroy()
         this.particleEmitter.pause()
         this.particleEmitter.setVisible(false)

@@ -58,10 +58,13 @@ export default class DevUI extends Phaser.Scene {
     }
 
     onRemoveEntity(entity) {
-        var oldHP = this.EntityUI.getChildren().find(function (e) {
-            return e.entity = entity
+        var UIs = this.EntityUI.getChildren().filter(function (e) {
+            return e.entity == entity
         })
-        this.EntityUI.remove(oldHP, true, true)
+
+        for (let o of UIs) {
+            this.EntityUI.killAndHide(o)//, true, true)
+        }
     }
 
     onGameOver(e) {
