@@ -53,7 +53,10 @@ export default class Entity extends Phaser.Physics.Matter.Sprite {
         ///maybe a static library of helper functions for common behaviour?        
         var vel = new Phaser.Math.Vector2(b.velocity.x - this.body.velocity.x, b.velocity.y - this.body.velocity.y)
         if (this.health) {            
-            this.health.changeHealth((((b.mass + this.body.mass) * (3 * 10^8)) * vel.length() / 1000000) * this.health.maxHealth * -0.25)            
+            this.health.changeHealth(
+                (
+                    ((b.mass + this.body.mass) * vel.length() / 1000000) * this.health.maxHealth * -0.05) / (this.body.mass / b.mass)
+                )          
         }
     }
     save() {
