@@ -54,3 +54,5 @@ class Osprey extends Chassis {
     }
   }
 }
+
+export { Chassis, Osprey }

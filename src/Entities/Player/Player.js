@@ -1,7 +1,6 @@
 import SaveState from '../../Utils/SaveState'
 import Helpers from '../../Utils/Helpers'
 import Entity from '../Entity'
-import Ship from '../../Ships/Ship'
 import Health from '../Components/Health'
 import Energy from '../Components/Energy'
 import InputMap from '../../UserInput/InputMap'
