@@ -27,7 +27,7 @@ export default class Player extends Entity {
         this.targetAngle = 0
         this.setBounce(0.5, 0.5)
         this.depth = 1
-        this.boostCost = 100
+        this.boostCost = 150
         this.boostReady = false
         this.boostPower = 1.5
 
@@ -152,8 +152,7 @@ export default class Player extends Entity {
         let turnRate = 0.01
         let boost = false;
         let boostVector = new Phaser.Math.Vector2()
-
-        if (this.inputstate.boost.isDown) {
+        if (Phaser.Input.Keyboard.JustDown(this.inputstate.boost)) {
             if (this.energy.currentEnergy > this.boostCost) {
                 this.boostReady = true;
             }
@@ -175,7 +174,7 @@ export default class Player extends Entity {
                         inputVector.x += this.acc
                         break;
                     case 'boost':
-                        if (this.boostReady && turnAngle <= 45) {
+                        if (this.boostReady) {// && turnAngle <= 90) {
                             boostVector.x = (Math.cos(this.rotation) / 10) * this.boostPower
                             boostVector.y = (Math.sin(this.rotation) / 10) * this.boostPower
                             this.energy.currentEnergy -= Math.ceil(this.boostCost / delta)

@@ -3,6 +3,7 @@ import Asteroid from '../Entities/ResourceNodes/Asteroid'
 import Entity from '../Entities/Entity'
 import SaveState from '../Utils/SaveState'
 import Helpers from '../Utils/Helpers'
+import InputMap from '../UserInput/InputMap'
 
 export default class DavidsTestKitchen extends Phaser.Scene {
     constructor() {

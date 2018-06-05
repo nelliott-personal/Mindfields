@@ -19,10 +19,10 @@ export default class InputMap {
         RIGHT: Phaser.Input.Keyboard.KeyCodes.D,
         PRIMARY_FIRE: 'MOUSE1',
         SECONDARY_FIRE: 'MOUSE2',
-        BOOST: 'SHIFT',
-        ABILITY_1: 'SPACE',
-        ABILITY_2: 'q',
-        ABILITY_3: 'e',
+        BOOST: Phaser.Input.Keyboard.KeyCodes.SPACE,
+        ABILITY_1: 'q',
+        ABILITY_2: 'w',
+        ABILITY_3: 'r',
         PAUSE: Phaser.Input.Keyboard.KeyCodes.TAB,
         FULLSCREEN: Phaser.Input.Keyboard.KeyCodes.P
       }
