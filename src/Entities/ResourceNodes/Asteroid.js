@@ -19,7 +19,7 @@ export default class Asteroid extends Entity{
     this.setBounce(1, 1)
     this.setFrictionAir(0)
     this.setAngularVelocity(0.01)
-
+    this.setVelocity(Phaser.Math.Between(-1, 1.5), Phaser.Math.Between(-1, 1.5))
     this.health = new Health(config, this)
   }
 

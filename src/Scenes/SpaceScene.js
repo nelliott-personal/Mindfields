@@ -71,7 +71,7 @@ export default class SpaceScene extends Phaser.Scene {
                     state: {
                         maxHealth: 10000
                     }
-                }).setVelocity(Phaser.Math.Between(-1, 1.5), Phaser.Math.Between(-1, 1.5))
+                })
             )
         }
 
